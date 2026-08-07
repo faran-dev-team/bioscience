@@ -39,6 +39,12 @@ build/
 .env.production.local
 .env.local
 
+# Local Documentation & PDF Files (Excluded from GitHub)
+BIOSCIENCE DEPOT CONTENT.pdf
+BIOSCIENCE_DEPOT_CONTENT.md
+BioScience-Depot-Brand-Guidelines.pdf
+BioScience-Depot-Brand-Guidelines.md
+
 # Editor & IDE directories
 .vscode/*
 !.vscode/extensions.json
@@ -62,4 +68,3 @@ build/
 *.p8
 *.p12
 key.properties
-EOF
