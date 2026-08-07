@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { LOT_RECORDS } from '../data/lotRecords';
 import { LotVerificationRecord } from '../types/compound';
 import { COADocumentView } from '../components/features/verification/COADocumentView';
-import { Search, ShieldAlert, CheckCircle2 } from 'lucide-react';
+import { IconSearch, IconAlertTriangle, IconCheckCircle, IconShieldCheck } from '../components/ui/Icons';
 import { Button } from '../components/ui/Button';
 
 export const VerifyLotPage: React.FC = () => {
@@ -23,39 +23,45 @@ export const VerifyLotPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 font-sans space-y-10">
-      <div className="max-w-3xl space-y-4 font-mono">
-        <span className="text-xs text-amber-500 font-bold uppercase tracking-widest block">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 font-body space-y-10 bg-[#0A0B0D]">
+      <div className="max-w-3xl space-y-3">
+        <span className="text-[11px] font-mono text-[#BE7A28] font-bold uppercase tracking-widest block">
           [ LOT RETRIEVAL & COA HUB ]
         </span>
-        <h1 className="text-3xl sm:text-4xl font-bold text-alloy-100 uppercase tracking-tight">
+        <h1 className="font-display text-3xl sm:text-4xl font-bold text-[#E8E6E1] uppercase tracking-tight">
           Retrieve Official Analytical Verification Records
         </h1>
-        <p className="text-sm font-sans text-alloy-300 leading-relaxed">
+        <p className="text-sm text-[#B9BEC4] leading-relaxed">
           Four seconds, no account required. Enter the 10-character Lot Number printed on your vial or packaging to view and download the official Certificate of Analysis.
         </p>
       </div>
 
       {/* Input Form Box */}
-      <form onSubmit={handleSearch} className="max-w-3xl flex flex-col sm:flex-row gap-3 font-mono text-xs">
+      <form onSubmit={handleSearch} className="max-w-3xl flex flex-col sm:flex-row gap-2.5 font-mono text-xs">
         <div className="relative flex-1">
           <input
             type="text"
             placeholder="ENTER VIAL LOT NUMBER (e.g. LOT 24-0817-C)..."
             value={lotInput}
             onChange={e => setLotInput(e.target.value)}
-            className="w-full bg-theme-surface border border-theme focus:border-amber-500 pl-4 pr-10 py-3.5 text-theme-primary placeholder-theme-muted uppercase tracking-widest focus:outline-none"
+            className="w-full bg-[#16181B] border border-[#2A2E33] focus:border-[#BE7A28] pl-3.5 pr-10 py-3 text-[#E8E6E1] placeholder-[#6B7178] uppercase tracking-widest focus:outline-none text-xs"
           />
-          <Search className="w-4 h-4 text-amber-500 absolute right-3.5 top-4 transition-transform duration-140 hover:scale-125 cursor-pointer" />
+          <button
+            type="submit"
+            className="absolute right-3 top-3 text-[#6B7178] hover:text-[#E3A455] transition-colors"
+            title="Retrieve Record"
+          >
+            <IconSearch size={16} />
+          </button>
         </div>
-        <Button variant="amber" size="lg" type="submit">
-          RETRIEVE RECORD →
+        <Button variant="primary" size="md" type="submit">
+          <span>Retrieve Record →</span>
         </Button>
       </form>
 
       {/* Quick Lot Selectors */}
-      <div className="max-w-3xl bg-obsidian-950 p-4 border border-white/10 font-mono text-xs flex flex-wrap items-center gap-3">
-        <span className="text-alloy-500 uppercase text-[11px]">AVAILABLE LOT DATABASE:</span>
+      <div className="max-w-3xl bg-[#16181B] p-4 border border-[#2A2E33] font-mono text-xs flex flex-wrap items-center gap-2.5">
+        <span className="text-[#6B7178] uppercase text-[11px]">AVAILABLE LOT DATABASE:</span>
         {Object.keys(LOT_RECORDS).map(lot => (
           <button
             key={lot}
@@ -64,7 +70,7 @@ export const VerifyLotPage: React.FC = () => {
               setActiveRecord(LOT_RECORDS[lot]);
               setErrorMsg('');
             }}
-            className="px-3 py-1 bg-obsidian-850 hover:bg-amber-500 hover:text-obsidian-950 border border-amber-500/30 text-amber-400 font-bold transition-colors text-xs"
+            className="px-2.5 py-1 bg-[#0A0B0D] hover:bg-[#1E2126] hover:text-[#E8E6E1] border border-[#2A2E33] text-[#B9BEC4] font-bold transition-colors text-xs"
           >
             {lot}
           </button>
@@ -73,8 +79,8 @@ export const VerifyLotPage: React.FC = () => {
 
       {/* Error Message */}
       {errorMsg && (
-        <div className="max-w-3xl bg-rose-500/10 border border-rose-500/30 p-4 text-rose-400 font-mono text-xs flex items-center gap-3">
-          <ShieldAlert className="w-5 h-5 flex-shrink-0" />
+        <div className="max-w-3xl bg-[#16181B] border border-[#BE7A28] p-4 text-[#E3A455] font-mono text-xs flex items-center gap-3">
+          <IconAlertTriangle size={18} amberAccent={true} />
           <span>{errorMsg}</span>
         </div>
       )}
@@ -82,12 +88,12 @@ export const VerifyLotPage: React.FC = () => {
       {/* Active Record Display */}
       {activeRecord && (
         <div className="max-w-4xl space-y-4">
-          <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 font-mono text-xs text-emerald-400 flex items-center justify-between">
+          <div className="bg-[#18241C] border border-[#3F6B4E] p-3 font-mono text-xs text-[#528B66] flex items-center justify-between">
             <span className="flex items-center gap-2 font-bold">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <IconCheckCircle size={15} />
               VERIFIED RELEASE RECORD FOUND: {activeRecord.lotNumber}
             </span>
-            <span className="text-alloy-400">STATUS: {activeRecord.status}</span>
+            <span className="text-[#B9BEC4] text-[11px]">STATUS: {activeRecord.status}</span>
           </div>
           <COADocumentView record={activeRecord} />
         </div>

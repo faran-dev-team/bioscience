@@ -13,6 +13,7 @@ import { QualityPage } from './pages/QualityPage';
 import { ResearchInfoPage } from './pages/ResearchInfoPage';
 import { VerifyLotPage } from './pages/VerifyLotPage';
 import { LegalPage } from './pages/LegalPage';
+import { AboutContactPage } from './pages/AboutContactPage';
 import { LotLookupModal } from './components/features/verification/LotLookupModal';
 import { CustomSynthesisModal } from './components/features/synthesis/CustomSynthesisModal';
 import { CheckoutModal } from './components/features/checkout/CheckoutModal';
@@ -75,6 +76,8 @@ export const AppContent: React.FC = () => {
         return <QualityPage onOpenLotLookup={handleOpenLotLookup} />;
       case 'research':
         return <ResearchInfoPage />;
+      case 'about':
+        return <AboutContactPage />;
       case 'legal':
         return <LegalPage />;
       case 'verify':
@@ -92,11 +95,11 @@ export const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-obsidian-900 text-alloy-200 selection:bg-amber-500 selection:text-obsidian-950">
+    <div className="min-h-screen flex flex-col bg-[#0A0B0D] text-[#E8E6E1] selection:bg-[#BE7A28] selection:text-[#0A0B0D] font-body">
       {/* 21+ RUO Compliance Access Protocol Gate */}
       <AgeGateModal />
 
-      {/* Main Navbar */}
+      {/* Main Brand Navbar */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={tab => {
@@ -108,30 +111,32 @@ export const AppContent: React.FC = () => {
         onOpenSynthesis={() => setIsSynthesisOpen(true)}
       />
 
-      {/* Slide-over Cart Drawer */}
+      {/* Slide-over Manifest Cart Drawer */}
       <CartDrawer onProceedToCheckout={() => setIsCheckoutOpen(true)} />
 
       {/* Main Page View Content */}
       <main className="flex-1">{renderContent()}</main>
 
-      {/* Global Modals */}
+      {/* Global Lot Retrieval Modal */}
       <LotLookupModal
         isOpen={isLotModalOpen}
         onClose={() => setIsLotModalOpen(false)}
         initialLotNumber={selectedLotNumber}
       />
 
+      {/* Custom Synthesis Specification Modal */}
       <CustomSynthesisModal
         isOpen={isSynthesisOpen}
         onClose={() => setIsSynthesisOpen(false)}
       />
 
+      {/* Institutional Procurement Checkout Modal */}
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
       />
 
-      {/* Footer */}
+      {/* Brand Footer */}
       <Footer
         setActiveTab={tab => {
           setSelectedCompound(null);

@@ -3,7 +3,7 @@ import { Modal } from '../../ui/Modal';
 import { LOT_RECORDS } from '../../../data/lotRecords';
 import { LotVerificationRecord } from '../../../types/compound';
 import { COADocumentView } from './COADocumentView';
-import { Search, ShieldAlert, CheckCircle2 } from 'lucide-react';
+import { IconSearch, IconAlertTriangle, IconCheckCircle } from '../../ui/Icons';
 import { Button } from '../../ui/Button';
 
 interface LotLookupModalProps {
@@ -57,49 +57,53 @@ export const LotLookupModal: React.FC<LotLookupModalProps> = ({
       title="Analytical Verification & Lot Retrieval"
       maxWidth="max-w-4xl"
     >
-      <div className="space-y-6">
+      <div className="space-y-5 font-body">
         {/* Search Bar Input */}
         <form onSubmit={handleSearch} className="flex gap-2">
           <div className="relative flex-1 font-mono">
             <input
               type="text"
-              placeholder="ENTER LOT NUMBER (e.g. LOT 24-0817-C, LOT 24-0902-A)..."
+              placeholder="ENTER LOT NUMBER (e.g. LOT 24-0817-C)..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full bg-theme-bg border border-theme focus:border-amber-500 font-mono text-xs pl-4 pr-10 py-3 text-theme-primary placeholder-theme-muted uppercase tracking-widest focus:outline-none"
+              className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] font-mono text-xs pl-3.5 pr-10 py-2.5 text-[#E8E6E1] placeholder-[#6B7178] uppercase tracking-widest focus:outline-none"
             />
-            <Search className="w-4 h-4 text-amber-500 absolute right-3.5 top-3.5 transition-transform duration-140 hover:scale-125 cursor-pointer" />
+            <button
+              type="submit"
+              className="absolute right-3 top-2.5 text-[#6B7178] hover:text-[#E3A455] transition-colors"
+              title="Search Lot"
+            >
+              <IconSearch size={15} />
+            </button>
           </div>
-          <Button variant="amber" size="md" type="submit">
-            VERIFY LOT
+          <Button variant="primary" size="md" type="submit">
+            <span>Verify Lot</span>
           </Button>
         </form>
 
         {/* Available Sample Lots Quick Picker */}
-        <div className="bg-obsidian-950 p-3 border border-white/10 font-mono text-[11px] flex items-center gap-3">
-          <span className="text-alloy-500 uppercase">TRY SAMPLE LOTS:</span>
-          <div className="flex flex-wrap gap-2">
-            {Object.keys(LOT_RECORDS).map(lot => (
-              <button
-                key={lot}
-                type="button"
-                onClick={() => {
-                  setSearchTerm(lot);
-                  setActiveRecord(LOT_RECORDS[lot]);
-                  setErrorMsg('');
-                }}
-                className="px-2 py-1 bg-obsidian-850 hover:bg-amber-500 hover:text-obsidian-950 border border-amber-500/30 text-amber-400 font-bold transition-colors"
-              >
-                {lot}
-              </button>
-            ))}
-          </div>
+        <div className="bg-[#0A0B0D] p-3 border border-[#2A2E33] font-mono text-[11px] flex flex-wrap items-center gap-2">
+          <span className="text-[#6B7178] uppercase">SAMPLE RELEASES:</span>
+          {Object.keys(LOT_RECORDS).map(lot => (
+            <button
+              key={lot}
+              type="button"
+              onClick={() => {
+                setSearchTerm(lot);
+                setActiveRecord(LOT_RECORDS[lot]);
+                setErrorMsg('');
+              }}
+              className="px-2 py-0.5 bg-[#16181B] hover:bg-[#1E2126] hover:text-[#E8E6E1] border border-[#2A2E33] text-[#B9BEC4] font-bold transition-colors"
+            >
+              {lot}
+            </button>
+          ))}
         </div>
 
         {/* Error Notification */}
         {errorMsg && (
-          <div className="bg-rose-500/10 border border-rose-500/30 p-4 text-rose-400 font-mono text-xs flex items-center gap-3">
-            <ShieldAlert className="w-5 h-5 flex-shrink-0" />
+          <div className="bg-[#16181B] border border-[#BE7A28] p-3.5 text-[#E3A455] font-mono text-xs flex items-center gap-2.5">
+            <IconAlertTriangle size={16} amberAccent={true} />
             <span>{errorMsg}</span>
           </div>
         )}
@@ -107,20 +111,20 @@ export const LotLookupModal: React.FC<LotLookupModalProps> = ({
         {/* COA Document Display */}
         {activeRecord ? (
           <div className="mt-4">
-            <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 mb-4 font-mono text-xs text-emerald-400 flex items-center justify-between">
+            <div className="bg-[#18241C] border border-[#3F6B4E] p-2.5 mb-3 font-mono text-xs text-[#528B66] flex items-center justify-between">
               <span className="flex items-center gap-2 font-bold">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <IconCheckCircle size={14} />
                 VERIFIED RELEASE RECORD FOUND: {activeRecord.lotNumber}
               </span>
-              <span className="text-[11px] text-alloy-400">HPLC PURITY: {activeRecord.purity}%</span>
+              <span className="text-[11px] text-[#B9BEC4]">HPLC PURITY: {activeRecord.purity}%</span>
             </div>
             <COADocumentView record={activeRecord} />
           </div>
         ) : (
           !errorMsg && (
-            <div className="text-center py-12 text-alloy-500 font-mono text-xs space-y-2">
+            <div className="text-center py-10 text-[#6B7178] font-mono text-xs space-y-1">
               <p>[ ENTER A 10-CHARACTER LOT NUMBER TO GENERATE CERTIFICATE ]</p>
-              <p className="text-[11px] text-alloy-600">
+              <p className="text-[11px] text-[#6B7178]">
                 Every unit shipped carries a lot number printed directly on the vial label and carton.
               </p>
             </div>

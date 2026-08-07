@@ -1,7 +1,7 @@
 import React from 'react';
 import { LotVerificationRecord } from '../../../types/compound';
 import { COMPOUNDS_DATA } from '../../../data/compounds';
-import { Printer, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { IconPrinter, IconCheckCircle, IconShieldCheck } from '../../ui/Icons';
 
 interface COADocumentViewProps {
   record: LotVerificationRecord;
@@ -12,81 +12,82 @@ export const COADocumentView: React.FC<COADocumentViewProps> = ({ record, onPrin
   const compound = COMPOUNDS_DATA.find(c => c.id === record.compoundId);
 
   return (
-    <div className="bg-white text-slate-900 p-8 border border-slate-300 font-sans shadow-xl relative text-xs">
+    <div className="bg-[#FFFFFF] text-[#18181B] p-8 border border-[#D4D4D8] font-sans shadow-none relative text-xs">
       {/* Print Button (Hidden during print) */}
       <div className="no-print flex justify-end mb-6">
         <button
           onClick={onPrint || (() => window.print())}
-          className="bg-slate-900 text-white font-mono text-xs px-4 py-2 hover:bg-amber-600 transition-colors flex items-center gap-2 font-bold uppercase tracking-wider"
+          className="bg-[#16181B] text-[#E8E6E1] font-mono text-xs px-4 py-2 hover:bg-[#BE7A28] hover:text-[#0A0B0D] transition-colors flex items-center gap-2 font-bold uppercase tracking-wider border border-[#2A2E33]"
         >
-          <Printer className="w-4 h-4" /> PRINT / DOWNLOAD OFFICIAL COA
+          <IconPrinter size={15} />
+          <span>Print / Download Official COA</span>
         </button>
       </div>
 
       {/* Official Header */}
-      <div className="border-b-2 border-slate-900 pb-4 mb-6 flex justify-between items-end">
+      <div className="border-b-2 border-[#18181B] pb-4 mb-6 flex justify-between items-end">
         <div>
-          <h2 className="font-mono text-xl font-bold tracking-widest text-slate-900 uppercase">
+          <h2 className="font-mono text-xl font-bold tracking-widest text-[#18181B] uppercase">
             BioScience Depot
           </h2>
-          <p className="font-mono text-[10px] text-slate-600 uppercase tracking-wider">
+          <p className="font-mono text-[10px] text-[#52525B] uppercase tracking-wider">
             Analytical Services & Release Documentation — United States
           </p>
         </div>
         <div className="text-right font-mono">
-          <span className="inline-block bg-slate-900 text-amber-400 font-bold px-3 py-1 text-xs">
+          <span className="inline-block bg-[#18181B] text-[#E8E6E1] font-bold px-3 py-1 text-xs">
             CERTIFICATE OF ANALYSIS
           </span>
-          <p className="text-[10px] text-slate-500 mt-1">ISO 9001:2015 ALIGNED METHODOLOGY</p>
+          <p className="text-[10px] text-[#71717A] mt-1">ISO 9001:2015 ALIGNED METHODOLOGY</p>
         </div>
       </div>
 
       {/* Lot Metadata Block */}
-      <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 border border-slate-200 mb-6 font-mono text-[11px]">
+      <div className="grid grid-cols-2 gap-4 bg-[#F4F4F5] p-4 border border-[#E4E4E7] mb-6 font-mono text-[11px]">
         <div>
-          <p className="text-slate-500 uppercase text-[9px]">PRODUCT NAME:</p>
-          <p className="font-bold text-slate-900 text-sm mb-2">{record.compoundName}</p>
+          <p className="text-[#71717A] uppercase text-[9px]">PRODUCT NAME:</p>
+          <p className="font-bold text-[#18181B] text-sm mb-2">{record.compoundName}</p>
 
-          <p className="text-slate-500 uppercase text-[9px]">CAS REGISTRY NUMBER:</p>
-          <p className="font-bold text-slate-800">{compound?.casNumber || 'N/A'}</p>
+          <p className="text-[#71717A] uppercase text-[9px]">CAS REGISTRY NUMBER:</p>
+          <p className="font-bold text-[#27272A]">{compound?.casNumber || 'N/A'}</p>
         </div>
 
         <div>
-          <p className="text-slate-500 uppercase text-[9px]">ANALYSIS LOT NUMBER:</p>
-          <p className="font-bold text-amber-700 text-sm mb-2">{record.lotNumber}</p>
+          <p className="text-[#71717A] uppercase text-[9px]">ANALYSIS LOT NUMBER:</p>
+          <p className="font-bold text-[#BE7A28] text-sm mb-2">{record.lotNumber}</p>
 
-          <p className="text-slate-500 uppercase text-[9px]">RELEASE DATE:</p>
-          <p className="font-bold text-slate-800">{record.analysisDate}</p>
+          <p className="text-[#71717A] uppercase text-[9px]">RELEASE DATE:</p>
+          <p className="font-bold text-[#27272A]">{record.analysisDate}</p>
         </div>
       </div>
 
       {/* Chemical Specifications */}
       <div className="mb-6">
-        <h4 className="font-mono font-bold text-xs uppercase text-slate-900 border-b border-slate-300 pb-1 mb-3">
-          1. CHEMICAL SPECIFICATIONS & MOLECULAR METRICS
+        <h4 className="font-mono font-bold text-xs uppercase text-[#18181B] border-b border-[#D4D4D8] pb-1 mb-3">
+          1. Chemical Specifications & Molecular Metrics
         </h4>
-        <table className="w-full text-left font-mono text-[11px] border border-slate-200">
-          <thead className="bg-slate-100 border-b border-slate-300 text-slate-700">
+        <table className="w-full text-left font-mono text-[11px] border border-[#E4E4E7]">
+          <thead className="bg-[#F4F4F5] border-b border-[#E4E4E7] text-[#52525B]">
             <tr>
-              <th className="p-2 border-r border-slate-200">PARAMETER</th>
-              <th className="p-2 border-r border-slate-200">SPECIFICATION</th>
+              <th className="p-2 border-r border-[#E4E4E7]">PARAMETER</th>
+              <th className="p-2 border-r border-[#E4E4E7]">SPECIFICATION</th>
               <th className="p-2">RESULT</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-slate-200">
-              <td className="p-2 border-r border-slate-200 font-semibold">Sequence</td>
-              <td className="p-2 border-r border-slate-200">{compound?.sequence}</td>
-              <td className="p-2 text-emerald-700 font-bold">MATCHES SPECIFICATION</td>
+            <tr className="border-b border-[#E4E4E7]">
+              <td className="p-2 border-r border-[#E4E4E7] font-semibold">Sequence</td>
+              <td className="p-2 border-r border-[#E4E4E7]">{compound?.sequence}</td>
+              <td className="p-2 text-[#3F6B4E] font-bold">MATCHES SPECIFICATION</td>
             </tr>
-            <tr className="border-b border-slate-200">
-              <td className="p-2 border-r border-slate-200 font-semibold">Molecular Mass</td>
-              <td className="p-2 border-r border-slate-200">{compound?.calculatedMass}</td>
+            <tr className="border-b border-[#E4E4E7]">
+              <td className="p-2 border-r border-[#E4E4E7] font-semibold">Molecular Mass</td>
+              <td className="p-2 border-r border-[#E4E4E7]">{compound?.calculatedMass}</td>
               <td className="p-2 font-bold">{compound?.calculatedMass} (MS Confirmed)</td>
             </tr>
             <tr>
-              <td className="p-2 border-r border-slate-200 font-semibold">Storage Condition</td>
-              <td className="p-2 border-r border-slate-200">-20 °C, Desiccated</td>
+              <td className="p-2 border-r border-[#E4E4E7] font-semibold">Storage Condition</td>
+              <td className="p-2 border-r border-[#E4E4E7]">-20 °C, Desiccated</td>
               <td className="p-2 font-bold">COMPLIANT</td>
             </tr>
           </tbody>
@@ -95,35 +96,35 @@ export const COADocumentView: React.FC<COADocumentViewProps> = ({ record, onPrin
 
       {/* Analytical Test Results Table */}
       <div className="mb-6">
-        <h4 className="font-mono font-bold text-xs uppercase text-slate-900 border-b border-slate-300 pb-1 mb-3">
-          2. ANALYTICAL TESTING RESULTS
+        <h4 className="font-mono font-bold text-xs uppercase text-[#18181B] border-b border-[#D4D4D8] pb-1 mb-3">
+          2. Analytical Testing Results
         </h4>
-        <table className="w-full text-left font-mono text-[11px] border border-slate-200">
-          <thead className="bg-slate-100 border-b border-slate-300 text-slate-700">
+        <table className="w-full text-left font-mono text-[11px] border border-[#E4E4E7]">
+          <thead className="bg-[#F4F4F5] border-b border-[#E4E4E7] text-[#52525B]">
             <tr>
-              <th className="p-2 border-r border-slate-200">TEST ITEM</th>
-              <th className="p-2 border-r border-slate-200">TEST METHOD</th>
-              <th className="p-2 border-r border-slate-200">SPECIFICATION</th>
+              <th className="p-2 border-r border-[#E4E4E7]">TEST ITEM</th>
+              <th className="p-2 border-r border-[#E4E4E7]">TEST METHOD</th>
+              <th className="p-2 border-r border-[#E4E4E7]">SPECIFICATION</th>
               <th className="p-2">ACTUAL RESULT</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-slate-200 bg-amber-50/50">
-              <td className="p-2 border-r border-slate-200 font-bold text-amber-900">Peptide Purity</td>
-              <td className="p-2 border-r border-slate-200">{record.method}</td>
-              <td className="p-2 border-r border-slate-200">≥ 99.0%</td>
-              <td className="p-2 font-bold text-emerald-700">{record.purity.toFixed(1)}%</td>
+            <tr className="border-b border-[#E4E4E7] bg-[#FFFBEB]/40">
+              <td className="p-2 border-r border-[#E4E4E7] font-bold text-[#78350F]">Peptide Purity</td>
+              <td className="p-2 border-r border-[#E4E4E7]">{record.method}</td>
+              <td className="p-2 border-r border-[#E4E4E7]">≥ 99.0%</td>
+              <td className="p-2 font-bold text-[#3F6B4E]">{record.purity.toFixed(1)}%</td>
             </tr>
-            <tr className="border-b border-slate-200">
-              <td className="p-2 border-r border-slate-200 font-semibold">Identity (ESI-MS)</td>
-              <td className="p-2 border-r border-slate-200">Mass Spectrometry</td>
-              <td className="p-2 border-r border-slate-200">Conforms to Sequence</td>
-              <td className="p-2 font-bold text-emerald-700">CONFORMS</td>
+            <tr className="border-b border-[#E4E4E7]">
+              <td className="p-2 border-r border-[#E4E4E7] font-semibold">Identity (ESI-MS)</td>
+              <td className="p-2 border-r border-[#E4E4E7]">Mass Spectrometry</td>
+              <td className="p-2 border-r border-[#E4E4E7]">Conforms to Sequence</td>
+              <td className="p-2 font-bold text-[#3F6B4E]">CONFORMS</td>
             </tr>
             <tr>
-              <td className="p-2 border-r border-slate-200 font-semibold">Moisture Content</td>
-              <td className="p-2 border-r border-slate-200">Karl Fischer Titration</td>
-              <td className="p-2 border-r border-slate-200">≤ 5.0%</td>
+              <td className="p-2 border-r border-[#E4E4E7] font-semibold">Moisture Content</td>
+              <td className="p-2 border-r border-[#E4E4E7]">Karl Fischer Titration</td>
+              <td className="p-2 border-r border-[#E4E4E7]">≤ 5.0%</td>
               <td className="p-2 font-bold">{record.waterContent}%</td>
             </tr>
           </tbody>
@@ -131,42 +132,44 @@ export const COADocumentView: React.FC<COADocumentViewProps> = ({ record, onPrin
       </div>
 
       {/* Simulated HPLC Chromatogram Box */}
-      <div className="mb-6 bg-slate-50 border border-slate-300 p-4">
+      <div className="mb-6 bg-[#F4F4F5] border border-[#E4E4E7] p-4">
         <div className="flex justify-between items-center mb-2">
-          <span className="font-mono font-bold text-[10px] uppercase text-slate-700">
+          <span className="font-mono font-bold text-[10px] uppercase text-[#3F3F46]">
             CHROMATOGRAM PROFILE — HPLC RUN LOT #{record.lotNumber}
           </span>
-          <span className="font-mono text-[9px] text-emerald-700 font-bold flex items-center gap-1">
-            <CheckCircle2 className="w-3 h-3" /> PRINCIPAL PEAK INTEGRATED: {record.purity}%
+          <span className="font-mono text-[9px] text-[#3F6B4E] font-bold flex items-center gap-1">
+            <IconCheckCircle size={12} />
+            <span>PRINCIPAL PEAK INTEGRATED: {record.purity}%</span>
           </span>
         </div>
-        <div className="h-28 bg-white border border-slate-300 flex items-end justify-between px-6 py-2 relative">
-          <div className="absolute inset-x-0 bottom-2 border-b border-slate-200" />
-          <div className="w-2 bg-slate-300 h-4" title="1.0 min" />
-          <div className="w-2 bg-slate-300 h-6" title="2.5 min" />
-          <div className="w-4 bg-emerald-600 h-full relative" title="Principal Peak - 5.2 min (99.1%)">
-            <span className="absolute -top-4 -left-4 text-[9px] font-mono font-bold text-emerald-800">
-              5.2 min ({record.purity}%)
+        <div className="h-24 bg-white border border-[#D4D4D8] flex items-end justify-between px-6 py-2 relative">
+          <div className="absolute inset-x-0 bottom-2 border-b border-[#E4E4E7]" />
+          <div className="w-1.5 bg-[#A1A1AA] h-4" />
+          <div className="w-1.5 bg-[#A1A1AA] h-6" />
+          <div className="w-3 bg-[#3F6B4E] h-full relative">
+            <span className="absolute -top-4 -left-3 text-[9px] font-mono font-bold text-[#3F6B4E]">
+              {record.purity}%
             </span>
           </div>
-          <div className="w-2 bg-slate-300 h-5" title="6.5 min" />
-          <div className="w-2 bg-slate-300 h-3" title="8.0 min" />
+          <div className="w-1.5 bg-[#A1A1AA] h-5" />
+          <div className="w-1.5 bg-[#A1A1AA] h-3" />
         </div>
-        <p className="text-[9px] font-mono text-slate-500 text-center mt-1">
-          RETENTION TIME (MINUTES) vs DETECTOR RESPONSE (mAU)
+        <p className="text-[9px] font-mono text-[#71717A] text-center mt-1">
+          RETENTION TIME (MINUTES) vs DETECTOR RESPONSE (mAU @ 214 nm)
         </p>
       </div>
 
       {/* Release Lead Signature Block */}
-      <div className="border-t border-slate-300 pt-4 flex justify-between items-end font-mono text-[10px]">
+      <div className="border-t border-[#D4D4D8] pt-4 flex justify-between items-end font-mono text-[10px]">
         <div>
-          <p className="text-slate-500 uppercase">ANALYTICAL RELEASE SIGNATORY:</p>
-          <p className="font-bold text-slate-900 text-xs mt-1">{record.analyst}</p>
-          <p className="text-slate-500">Quality Assurance & Analytical Release Lead</p>
+          <p className="text-[#71717A] uppercase">ANALYTICAL RELEASE SIGNATORY:</p>
+          <p className="font-bold text-[#18181B] text-xs mt-0.5">{record.analyst}</p>
+          <p className="text-[#71717A]">Quality Assurance & Analytical Release Lead</p>
         </div>
         <div className="text-right">
-          <div className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-900 border border-emerald-300 font-bold px-3 py-1">
-            <ShieldCheck className="w-4 h-4 text-emerald-700" /> LOT STATUS: {record.status}
+          <div className="inline-flex items-center gap-1.5 bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0] font-bold px-3 py-1">
+            <IconShieldCheck size={13} />
+            <span>LOT STATUS: {record.status}</span>
           </div>
         </div>
       </div>

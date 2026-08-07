@@ -3,53 +3,115 @@
 @tailwind utilities;
 
 @layer base {
+  /* Font Family Definitions & System Fallbacks */
+  @font-face {
+    font-family: 'Söhne Breit';
+    src: local('Söhne Breit'), local('Soehne Breit'), local('Cabinet Grotesk'), local('Inter');
+    font-weight: 700;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Söhne';
+    src: local('Söhne'), local('Soehne'), local('Inter');
+    font-weight: 400 700;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Söhne Mono';
+    src: local('Söhne Mono'), local('Soehne Mono'), local('JetBrains Mono'), local('Menlo'), local('monospace');
+    font-weight: 400 700;
+    font-display: swap;
+  }
+
   :root {
-    --bg-primary: #0D0E11;
-    --bg-surface: #121418;
-    --bg-card: rgba(18, 20, 24, 0.85);
-    --bg-card-hover: rgba(25, 28, 34, 0.95);
-    --border-color: rgba(255, 255, 255, 0.12);
-    --border-highlight: rgba(245, 158, 11, 0.4);
-    --text-primary: #F8FAFC;
-    --text-secondary: #CBD5E1;
-    --text-muted: #94A3B8;
-    --accent-amber: #F59E0B;
-    --input-bg: #181B20;
+    --bg-canvas: #0A0B0D;
+    --bg-surface: #16181B;
+    --bg-raised: #1E2126;
+    --border-color: #2A2E33;
+    --border-highlight: #3A3F45;
+    --text-primary: #E8E6E1;
+    --text-secondary: #B9BEC4;
+    --text-metadata: #6B7178;
+    --accent-amber: #BE7A28;
+    --accent-amber-hover: #E3A455;
+    --verified-green: #3F6B4E;
+    --verified-green-light: #528B66;
+    --input-bg: #16181B;
   }
 
   html.light {
-    --bg-primary: #F1F5F9 !important;
-    --bg-surface: #FFFFFF !important;
-    --bg-card: #FFFFFF !important;
-    --bg-card-hover: #F8FAFC !important;
-    --border-color: #CBD5E1 !important;
-    --border-highlight: #D97706 !important;
-    --text-primary: #0F172A !important;
-    --text-secondary: #334155 !important;
-    --text-muted: #64748B !important;
-    --accent-amber: #D97706 !important;
-    --input-bg: #FFFFFF !important;
+    --bg-canvas: #F4F4F5;
+    --bg-surface: #FFFFFF;
+    --bg-raised: #E4E4E7;
+    --border-color: #D4D4D8;
+    --border-highlight: #A1A1AA;
+    --text-primary: #18181B;
+    --text-secondary: #52525B;
+    --text-metadata: #71717A;
+    --accent-amber: #BE7A28;
+    --accent-amber-hover: #A4661E;
+    --verified-green: #3F6B4E;
+    --input-bg: #FFFFFF;
+  }
+
+  * {
+    border-radius: 0px !important;
   }
 
   body {
-    background-color: var(--bg-primary);
+    background-color: var(--bg-canvas);
     color: var(--text-primary);
+    font-family: 'Söhne', 'Soehne', 'Inter', -apple-system, sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    transition: background-color 140ms ease, color 140ms ease;
+    transition: background-color 120ms ease, color 120ms ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Söhne', 'Soehne', 'Inter', sans-serif;
+    letter-spacing: -0.01em;
   }
 }
 
-/* Theme Semantic Helpers */
-.bg-theme-bg {
-  background-color: var(--bg-primary) !important;
+/* Typography Utility Classes */
+.font-display {
+  font-family: 'Söhne Breit', 'Soehne Breit', 'Cabinet Grotesk', 'Inter', sans-serif !important;
+}
+
+.font-heading {
+  font-family: 'Söhne', 'Soehne', 'Inter', sans-serif !important;
+}
+
+.font-body {
+  font-family: 'Söhne', 'Soehne', 'Inter', sans-serif !important;
+}
+
+.font-mono {
+  font-family: 'Söhne Mono', 'Soehne Mono', 'JetBrains Mono', 'Menlo', monospace !important;
+}
+
+.font-interface {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+/* Semantic Surface & Border Classes */
+.bg-theme-canvas {
+  background-color: var(--bg-canvas) !important;
 }
 
 .bg-theme-surface {
   background-color: var(--bg-surface) !important;
 }
 
+.bg-theme-raised {
+  background-color: var(--bg-raised) !important;
+}
+
+.bg-theme-bg {
+  background-color: var(--bg-surface) !important;
+}
+
 .bg-theme-card {
-  background-color: var(--bg-card) !important;
+  background-color: var(--bg-surface) !important;
 }
 
 .text-theme-primary {
@@ -61,7 +123,15 @@
 }
 
 .text-theme-muted {
-  color: var(--text-muted) !important;
+  color: var(--text-metadata) !important;
+}
+
+.text-theme-amber {
+  color: var(--accent-amber) !important;
+}
+
+.text-theme-verified {
+  color: var(--verified-green) !important;
 }
 
 .border-theme {
@@ -69,79 +139,58 @@
 }
 
 .border-theme-amber {
-  border-color: var(--border-highlight) !important;
+  border-color: var(--accent-amber) !important;
 }
 
-/* Glassmorphism & Custom Effects */
-.glass-panel {
-  background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+.border-theme-verified {
+  border-color: var(--verified-green) !important;
+}
+
+/* Crisp 0px Rectangular Card Style */
+.brand-card {
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+  border-radius: 0px;
+  box-shadow: none;
+  transition: border-color 120ms ease;
 }
 
-.glass-panel-hover {
-  transition: all 140ms cubic-bezier(0.2, 0, 0.2, 1);
+.brand-card:hover {
+  border-color: #3A3F45;
 }
 
-.glass-panel-hover:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-highlight);
-  box-shadow: 0 8px 30px -4px rgba(245, 158, 11, 0.15);
-  transform: translateY(-2px);
-}
-
-.hud-border {
-  border: 1px solid var(--border-highlight);
-  box-shadow: 0 0 15px -3px rgba(245, 158, 11, 0.15);
-}
-
-/* Mechanical Motion Keyframes (Section 08 Brand Guidelines) */
-@keyframes scribeMark {
-  0% { transform: scale(0.95); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes pulseAxis {
-  0%, 100% { opacity: 1; transform: scaleY(1); }
-  50% { opacity: 0.6; transform: scaleY(0.95); }
-}
-
-.animate-scribe {
-  animation: scribeMark 400ms cubic-bezier(0.2, 0, 0.2, 1) forwards;
-}
-
-.animate-axis {
-  animation: pulseAxis 3s ease-in-out infinite;
+.glass-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 0px;
+  box-shadow: none;
 }
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: var(--bg-canvas);
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--border-color);
-  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-amber);
 }
 
-/* Mechanical Focus Rings */
+/* Crisp Focus Ring */
 *:focus-visible {
-  outline: 2px solid var(--accent-amber);
-  outline-offset: 2px;
+  outline: 1px solid var(--accent-amber);
+  outline-offset: 1px;
 }
 
-/* Print Styles for COA Generation */
+/* Print Styles */
 @media print {
   body {
     background: #ffffff !important;

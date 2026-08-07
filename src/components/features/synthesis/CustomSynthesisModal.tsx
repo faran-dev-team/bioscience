@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { Modal } from '../../ui/Modal';
 import { Button } from '../../ui/Button';
-import { Cpu, CheckCircle2, FlaskConical, AlertCircle } from 'lucide-react';
+import {
+  IconCpu,
+  IconCheckCircle,
+  IconFlask,
+  IconAlertTriangle
+} from '../../ui/Icons';
 import { SynthesisEnquiry } from '../../../types/synthesis';
 import { validateSynthesisForm } from '../../../utils/validation';
 
@@ -60,38 +65,38 @@ export const CustomSynthesisModal: React.FC<CustomSynthesisModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Custom Peptide Synthesis Enquiry Builder"
+      title="Custom Peptide Synthesis Specification Builder"
       maxWidth="max-w-3xl"
     >
       {submitted ? (
-        <div className="text-center py-12 space-y-4 font-mono">
-          <div className="w-16 h-16 bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400 rounded-full flex items-center justify-center mx-auto animate-pulse">
-            <CheckCircle2 className="w-8 h-8" />
+        <div className="text-center py-10 space-y-3 font-body">
+          <div className="w-12 h-12 bg-[#18241C] border border-[#3F6B4E] text-[#528B66] flex items-center justify-center mx-auto">
+            <IconCheckCircle size={24} />
           </div>
-          <h3 className="text-lg font-bold text-theme-primary uppercase tracking-widest">
+          <h3 className="text-base font-heading font-bold text-[#E8E6E1] uppercase tracking-wider">
             SYNTHESIS ENQUIRY TRANSMITTED
           </h3>
-          <p className="text-xs text-theme-secondary max-w-md mx-auto leading-relaxed">
-            Your synthesis specification for sequence <span className="text-amber-500 font-bold">{formData.sequence}</span> has been assigned reference ID <span className="text-emerald-500 font-bold">SYN-2024-8841</span>. Our analytical team will respond with a formal quotation within 4 business hours.
+          <p className="text-xs text-[#B9BEC4] max-w-md mx-auto leading-relaxed">
+            Your synthesis specification for sequence <span className="text-[#E8E6E1] font-mono font-bold">{formData.sequence}</span> has been assigned reference ID <span className="text-[#528B66] font-mono font-bold">SYN-2024-8841</span>. Our analytical team will respond with a formal quotation within 4 business hours.
           </p>
-          <Button variant="amber" size="md" onClick={handleReset} className="mt-4">
-            CLOSE & RETURN TO CATALOGUE
+          <Button variant="primary" size="md" onClick={handleReset} className="mt-3">
+            <span>Close & Return to Catalogue</span>
           </Button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-5 font-mono text-xs">
-          <div className="bg-theme-bg p-4 border border-amber-500/30 flex items-start gap-3">
-            <FlaskConical className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-            <p className="text-theme-secondary text-[11px] leading-relaxed font-sans">
+        <form onSubmit={handleSubmit} className="space-y-4 font-interface text-xs">
+          <div className="bg-[#0A0B0D] p-3.5 border border-[#2A2E33] flex items-start gap-2.5">
+            <IconFlask size={16} amberAccent={true} className="flex-shrink-0 mt-0.5" />
+            <p className="text-[#B9BEC4] text-[11px] leading-relaxed font-body">
               We produce custom sequences using solid-phase peptide synthesis (SPPS) with automated microwave coupling. Every custom batch is HPLC purified and analytically verified before shipment.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             {/* Sequence */}
             <div className="md:col-span-2">
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                AMINO ACID SEQUENCE (Single- or Three-Letter Code) *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Amino Acid Sequence (Single- or Three-Letter Code) *
               </label>
               <textarea
                 required
@@ -102,26 +107,26 @@ export const CustomSynthesisModal: React.FC<CustomSynthesisModalProps> = ({
                   if (errors.sequence) setErrors({ ...errors, sequence: '' });
                 }}
                 placeholder="e.g. Ac-His-D-2Nal-D-Phe-Lys-NH2..."
-                className={`w-full bg-theme-surface border p-3 text-theme-primary placeholder-theme-muted font-mono text-xs tracking-wider focus:outline-none ${
-                  errors.sequence ? 'border-rose-500' : 'border-theme focus:border-amber-500'
+                className={`w-full bg-[#0A0B0D] border p-2.5 text-[#E8E6E1] placeholder-[#6B7178] font-mono text-xs tracking-wider focus:outline-none ${
+                  errors.sequence ? 'border-[#BE7A28]' : 'border-[#2A2E33] focus:border-[#BE7A28]'
                 }`}
               />
               {errors.sequence && (
-                <p className="text-rose-500 text-[10px] mt-1 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" /> {errors.sequence}
+                <p className="text-[#E3A455] text-[10px] mt-1 flex items-center gap-1 font-mono">
+                  <IconAlertTriangle size={11} /> {errors.sequence}
                 </p>
               )}
             </div>
 
             {/* Target Purity */}
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                TARGET PURITY (HPLC) *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Target Purity (HPLC) *
               </label>
               <select
                 value={formData.targetPurity}
                 onChange={e => setFormData({ ...formData, targetPurity: e.target.value as any })}
-                className="w-full bg-theme-surface border border-theme focus:border-amber-500 p-2.5 text-theme-primary font-mono text-xs"
+                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none"
               >
                 <option value="95%">≥ 95.0% (HPLC Area Normalised)</option>
                 <option value="98%">≥ 98.0% (HPLC Area Normalised)</option>
@@ -131,13 +136,13 @@ export const CustomSynthesisModal: React.FC<CustomSynthesisModalProps> = ({
 
             {/* Counter Ion */}
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                COUNTER-ION PREFERENCE *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Counter-Ion Preference *
               </label>
               <select
                 value={formData.counterIon}
                 onChange={e => setFormData({ ...formData, counterIon: e.target.value as any })}
-                className="w-full bg-theme-surface border border-theme focus:border-amber-500 p-2.5 text-theme-primary font-mono text-xs"
+                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none"
               >
                 <option value="Trifluoroacetate (TFA)">Trifluoroacetate (TFA)</option>
                 <option value="Acetate">Acetate (Salt Exchange)</option>
@@ -146,8 +151,8 @@ export const CustomSynthesisModal: React.FC<CustomSynthesisModalProps> = ({
 
             {/* Quantity mg */}
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                TOTAL PEPTIDE QUANTITY (mg) *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Total Peptide Quantity (mg) *
               </label>
               <input
                 type="number"
@@ -155,14 +160,14 @@ export const CustomSynthesisModal: React.FC<CustomSynthesisModalProps> = ({
                 required
                 value={formData.quantityMg}
                 onChange={e => setFormData({ ...formData, quantityMg: Number(e.target.value) })}
-                className="w-full bg-theme-surface border border-theme focus:border-amber-500 p-2.5 text-theme-primary font-mono text-xs"
+                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none"
               />
             </div>
 
             {/* Number of Vials */}
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                NUMBER OF VIAL ALIQUOTS *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Number of Vial Aliquots *
               </label>
               <input
                 type="number"
@@ -170,14 +175,14 @@ export const CustomSynthesisModal: React.FC<CustomSynthesisModalProps> = ({
                 required
                 value={formData.vialQuantity}
                 onChange={e => setFormData({ ...formData, vialQuantity: Number(e.target.value) })}
-                className="w-full bg-theme-surface border border-theme focus:border-amber-500 p-2.5 text-theme-primary font-mono text-xs"
+                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none"
               />
             </div>
 
             {/* Researcher Contact Name */}
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                RESEARCHER CONTACT NAME *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Researcher Contact Name *
               </label>
               <input
                 type="text"
@@ -187,21 +192,16 @@ export const CustomSynthesisModal: React.FC<CustomSynthesisModalProps> = ({
                   setFormData({ ...formData, researcherName: e.target.value });
                   if (errors.researcherName) setErrors({ ...errors, researcherName: '' });
                 }}
-                className={`w-full bg-theme-surface border p-2.5 text-theme-primary font-mono text-xs focus:outline-none ${
-                  errors.researcherName ? 'border-rose-500' : 'border-theme focus:border-amber-500'
+                className={`w-full bg-[#0A0B0D] border p-2 text-[#E8E6E1] text-xs focus:outline-none ${
+                  errors.researcherName ? 'border-[#BE7A28]' : 'border-[#2A2E33] focus:border-[#BE7A28]'
                 }`}
               />
-              {errors.researcherName && (
-                <p className="text-rose-500 text-[10px] mt-1 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" /> {errors.researcherName}
-                </p>
-              )}
             </div>
 
             {/* Institution & Contact */}
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                INSTITUTION / UNIVERSITY NAME *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Institution / University Name *
               </label>
               <input
                 type="text"
@@ -211,20 +211,15 @@ export const CustomSynthesisModal: React.FC<CustomSynthesisModalProps> = ({
                   setFormData({ ...formData, institution: e.target.value });
                   if (errors.institution) setErrors({ ...errors, institution: '' });
                 }}
-                className={`w-full bg-theme-surface border p-2.5 text-theme-primary font-mono text-xs focus:outline-none ${
-                  errors.institution ? 'border-rose-500' : 'border-theme focus:border-amber-500'
+                className={`w-full bg-[#0A0B0D] border p-2 text-[#E8E6E1] text-xs focus:outline-none ${
+                  errors.institution ? 'border-[#BE7A28]' : 'border-[#2A2E33] focus:border-[#BE7A28]'
                 }`}
               />
-              {errors.institution && (
-                <p className="text-rose-500 text-[10px] mt-1 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" /> {errors.institution}
-                </p>
-              )}
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                RESEARCHER EMAIL *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Researcher Institutional Email *
               </label>
               <input
                 type="email"
@@ -234,24 +229,20 @@ export const CustomSynthesisModal: React.FC<CustomSynthesisModalProps> = ({
                   setFormData({ ...formData, email: e.target.value });
                   if (errors.email) setErrors({ ...errors, email: '' });
                 }}
-                className={`w-full bg-theme-surface border p-2.5 text-theme-primary font-mono text-xs focus:outline-none ${
-                  errors.email ? 'border-rose-500' : 'border-theme focus:border-amber-500'
+                className={`w-full bg-[#0A0B0D] border p-2 text-[#E8E6E1] text-xs focus:outline-none ${
+                  errors.email ? 'border-[#BE7A28]' : 'border-[#2A2E33] focus:border-[#BE7A28]'
                 }`}
               />
-              {errors.email && (
-                <p className="text-rose-500 text-[10px] mt-1 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" /> {errors.email}
-                </p>
-              )}
             </div>
           </div>
 
-          <div className="pt-4 border-t border-theme flex items-center justify-between">
-            <span className="text-[10px] text-theme-muted">
+          <div className="pt-3 border-t border-[#2A2E33] flex items-center justify-between">
+            <span className="text-[10px] font-mono text-[#6B7178]">
               FORMAL QUOTATION GENERATION WITHIN 4 HOURS
             </span>
-            <Button variant="amber" size="lg" type="submit" className="flex items-center gap-2">
-              <Cpu className="w-4 h-4" /> SUBMIT SYNTHESIS SPECIFICATION
+            <Button variant="amber" size="md" type="submit" className="flex items-center gap-2">
+              <IconCpu size={14} />
+              <span>Submit Synthesis Specification</span>
             </Button>
           </div>
         </form>

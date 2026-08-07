@@ -3,7 +3,13 @@ import { Modal } from '../../ui/Modal';
 import { Button } from '../../ui/Button';
 import { useCart } from '../../../context/CartContext';
 import { CheckoutDetails } from '../../../types/cart';
-import { CreditCard, FileCheck2, CheckCircle2, Lock, AlertCircle } from 'lucide-react';
+import {
+  IconFileText,
+  IconCheckCircle,
+  IconLock,
+  IconAlertTriangle,
+  IconShieldCheck
+} from '../../ui/Icons';
 import { validateCheckoutForm } from '../../../utils/validation';
 
 interface CheckoutModalProps {
@@ -70,56 +76,56 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
       maxWidth="max-w-3xl"
     >
       {submitted ? (
-        <div className="text-center py-12 space-y-4 font-mono">
-          <div className="w-16 h-16 bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400 rounded-full flex items-center justify-center mx-auto">
-            <CheckCircle2 className="w-8 h-8" />
+        <div className="text-center py-10 space-y-3 font-body">
+          <div className="w-12 h-12 bg-[#18241C] border border-[#3F6B4E] text-[#528B66] flex items-center justify-center mx-auto">
+            <IconCheckCircle size={24} />
           </div>
-          <h3 className="text-lg font-bold text-theme-primary uppercase tracking-widest">
+          <h3 className="text-base font-heading font-bold text-[#E8E6E1] uppercase tracking-wider">
             ORDER CONFIRMED & QUEUED FOR COLD-CHAIN DISPATCH
           </h3>
-          <p className="text-xs text-amber-500 font-bold">
+          <p className="text-xs text-[#E8E6E1] font-mono font-bold">
             PROCUREMENT REFERENCE: {orderRef}
           </p>
-          <p className="text-xs text-theme-secondary max-w-md mx-auto leading-relaxed">
-            A confirmation receipt and Certificate of Analysis package have been dispatched to <span className="text-theme-primary">{details.email}</span>. Your shipment will be prepared under temperature-controlled packaging.
+          <p className="text-xs text-[#B9BEC4] max-w-md mx-auto leading-relaxed">
+            A confirmation receipt and Certificate of Analysis package have been dispatched to <span className="text-[#E8E6E1] font-mono">{details.email}</span>. Your shipment will be prepared under temperature-controlled packaging.
           </p>
-          <Button variant="amber" size="md" onClick={handleFinish} className="mt-4">
-            RETURN TO OVERVIEW
+          <Button variant="primary" size="md" onClick={handleFinish} className="mt-3">
+            <span>Return to Overview</span>
           </Button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6 font-mono text-xs">
+        <form onSubmit={handleSubmit} className="space-y-4 font-interface text-xs">
           {/* Order Summary Line */}
-          <div className="bg-theme-bg p-4 border border-theme flex justify-between items-center">
+          <div className="bg-[#0A0B0D] p-3.5 border border-[#2A2E33] flex justify-between items-center">
             <div>
-              <p className="text-amber-500 font-bold uppercase">MANIFEST TOTAL ({cart.length} ITEMS):</p>
-              <p className="text-[11px] text-theme-muted">INCLUDES TEMPERATURE-CONTROLLED COLD SHIPPING</p>
+              <p className="text-[#E8E6E1] font-heading font-bold uppercase text-xs">Manifest Total ({cart.length} items):</p>
+              <p className="text-[10px] font-mono text-[#6B7178]">INCLUDES TEMPERATURE-CONTROLLED COLD SHIPPING</p>
             </div>
-            <span className="text-lg font-bold text-amber-500 font-mono">${cartTotal.toFixed(2)} USD</span>
+            <span className="text-base font-mono font-bold text-[#E8E6E1]">${cartTotal.toFixed(2)} USD</span>
           </div>
 
           {/* Payment Method Selector */}
           <div>
-            <label className="block text-amber-500 uppercase tracking-widest font-bold mb-2">
-              PAYMENT METHOD & PROCUREMENT TYPE *
+            <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+              Payment Method & Procurement Type *
             </label>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2.5">
               <button
                 type="button"
                 onClick={() => {
                   setDetails({ ...details, paymentMethod: 'PURCHASE_ORDER' });
                   setErrors({});
                 }}
-                className={`p-3 border text-left flex items-center gap-3 transition-colors ${
+                className={`p-2.5 border text-left flex items-center gap-2.5 transition-colors ${
                   details.paymentMethod === 'PURCHASE_ORDER'
-                    ? 'border-amber-500 bg-amber-500/10 text-amber-500 font-bold'
-                    : 'border-theme bg-theme-surface text-theme-secondary hover:bg-theme-bg'
+                    ? 'border-[#BE7A28] bg-[#BE7A28]/10 text-[#E8E6E1]'
+                    : 'border-[#2A2E33] bg-[#0A0B0D] text-[#B9BEC4] hover:bg-[#16181B]'
                 }`}
               >
-                <FileCheck2 className="w-5 h-5 flex-shrink-0" />
+                <IconFileText size={16} amberAccent={details.paymentMethod === 'PURCHASE_ORDER'} />
                 <div>
-                  <p className="text-xs uppercase">Institutional PO (Net 30)</p>
-                  <p className="text-[10px] opacity-75">Purchase Order Invoice</p>
+                  <p className="text-xs uppercase font-bold">Institutional PO (Net 30)</p>
+                  <p className="text-[10px] text-[#6B7178]">Purchase Order Invoice</p>
                 </div>
               </button>
 
@@ -129,16 +135,16 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                   setDetails({ ...details, paymentMethod: 'CREDIT_CARD' });
                   setErrors({});
                 }}
-                className={`p-3 border text-left flex items-center gap-3 transition-colors ${
+                className={`p-2.5 border text-left flex items-center gap-2.5 transition-colors ${
                   details.paymentMethod === 'CREDIT_CARD'
-                    ? 'border-amber-500 bg-amber-500/10 text-amber-500 font-bold'
-                    : 'border-theme bg-theme-surface text-theme-secondary hover:bg-theme-bg'
+                    ? 'border-[#BE7A28] bg-[#BE7A28]/10 text-[#E8E6E1]'
+                    : 'border-[#2A2E33] bg-[#0A0B0D] text-[#B9BEC4] hover:bg-[#16181B]'
                 }`}
               >
-                <CreditCard className="w-5 h-5 flex-shrink-0" />
+                <IconShieldCheck size={16} amberAccent={details.paymentMethod === 'CREDIT_CARD'} />
                 <div>
-                  <p className="text-xs uppercase">Corporate Credit Card</p>
-                  <p className="text-[10px] opacity-75">Instant Direct Authorization</p>
+                  <p className="text-xs uppercase font-bold">Corporate Credit Card</p>
+                  <p className="text-[10px] text-[#6B7178]">Instant Direct Authorization</p>
                 </div>
               </button>
             </div>
@@ -147,8 +153,8 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
           {/* PO Number Field if PO chosen */}
           {details.paymentMethod === 'PURCHASE_ORDER' ? (
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                INSTITUTIONAL PO NUMBER *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Institutional PO Number *
               </label>
               <input
                 type="text"
@@ -159,20 +165,15 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                   if (errors.poNumber) setErrors({ ...errors, poNumber: '' });
                 }}
                 placeholder="e.g. PO-2024-99120"
-                className={`w-full bg-theme-surface border p-2.5 text-theme-primary font-mono text-xs focus:outline-none ${
-                  errors.poNumber ? 'border-rose-500' : 'border-theme focus:border-amber-500'
+                className={`w-full bg-[#0A0B0D] border p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none ${
+                  errors.poNumber ? 'border-[#BE7A28]' : 'border-[#2A2E33] focus:border-[#BE7A28]'
                 }`}
               />
-              {errors.poNumber && (
-                <p className="text-rose-500 text-[10px] mt-1 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" /> {errors.poNumber}
-                </p>
-              )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 bg-theme-bg p-4 border border-theme">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 bg-[#0A0B0D] p-3 border border-[#2A2E33]">
               <div className="md:col-span-3">
-                <label className="block text-amber-500 uppercase font-bold mb-1">CARD NUMBER *</label>
+                <label className="block text-[#B9BEC4] uppercase font-semibold mb-1 text-[11px]">Card Number *</label>
                 <input
                   type="text"
                   required
@@ -182,134 +183,127 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                     setDetails({ ...details, cardNumber: e.target.value });
                     if (errors.cardNumber) setErrors({ ...errors, cardNumber: '' });
                   }}
-                  className={`w-full bg-theme-surface border p-2 text-theme-primary font-mono text-xs focus:outline-none ${
-                    errors.cardNumber ? 'border-rose-500' : 'border-theme focus:border-amber-500'
-                  }`}
+                  className="w-full bg-[#16181B] border border-[#2A2E33] p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none focus:border-[#BE7A28]"
                 />
-                {errors.cardNumber && <p className="text-rose-500 text-[10px] mt-0.5">{errors.cardNumber}</p>}
               </div>
 
               <div>
-                <label className="block text-amber-500 uppercase font-bold mb-1">EXPIRY (MM/YY) *</label>
+                <label className="block text-[#B9BEC4] uppercase font-semibold mb-1 text-[11px]">Expiry (MM/YY) *</label>
                 <input
                   type="text"
                   required
                   placeholder="12/28"
                   value={details.cardExpiry || ''}
                   onChange={e => setDetails({ ...details, cardExpiry: e.target.value })}
-                  className="w-full bg-theme-surface border border-theme p-2 text-theme-primary font-mono text-xs focus:outline-none focus:border-amber-500"
+                  className="w-full bg-[#16181B] border border-[#2A2E33] p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none focus:border-[#BE7A28]"
                 />
               </div>
 
               <div>
-                <label className="block text-amber-500 uppercase font-bold mb-1">CVC CODE *</label>
+                <label className="block text-[#B9BEC4] uppercase font-semibold mb-1 text-[11px]">CVC Code *</label>
                 <input
                   type="text"
                   required
                   placeholder="884"
                   value={details.cardCvc || ''}
                   onChange={e => setDetails({ ...details, cardCvc: e.target.value })}
-                  className="w-full bg-theme-surface border border-theme p-2 text-theme-primary font-mono text-xs focus:outline-none focus:border-amber-500"
+                  className="w-full bg-[#16181B] border border-[#2A2E33] p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none focus:border-[#BE7A28]"
                 />
               </div>
             </div>
           )}
 
           {/* Address & Institution Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                INSTITUTION / COMPANY NAME *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Institution / Company Name *
               </label>
               <input
                 type="text"
                 required
                 value={details.institutionName}
                 onChange={e => setDetails({ ...details, institutionName: e.target.value })}
-                className="w-full bg-theme-surface border border-theme focus:border-amber-500 p-2.5 text-theme-primary font-mono text-xs"
+                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] text-xs focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                LAB / DEPARTMENT NAME *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Lab / Department Name *
               </label>
               <input
                 type="text"
                 required
                 value={details.departmentName}
                 onChange={e => setDetails({ ...details, departmentName: e.target.value })}
-                className="w-full bg-theme-surface border border-theme focus:border-amber-500 p-2.5 text-theme-primary font-mono text-xs"
+                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] text-xs focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                RESEARCHER CONTACT NAME *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Researcher Contact Name *
               </label>
               <input
                 type="text"
                 required
                 value={details.contactName}
                 onChange={e => setDetails({ ...details, contactName: e.target.value })}
-                className="w-full bg-theme-surface border border-theme focus:border-amber-500 p-2.5 text-theme-primary font-mono text-xs"
+                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] text-xs focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                INSTITUTIONAL EMAIL *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Institutional Email *
               </label>
               <input
                 type="email"
                 required
                 value={details.email}
                 onChange={e => setDetails({ ...details, email: e.target.value })}
-                className="w-full bg-theme-surface border border-theme focus:border-amber-500 p-2.5 text-theme-primary font-mono text-xs"
+                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] text-xs focus:outline-none"
               />
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-amber-500 uppercase tracking-widest font-bold mb-1">
-                SHIPPING DELIVERY ADDRESS (STREET, SUITE, DOCK) *
+              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+                Shipping Delivery Address (Street, Suite, Dock) *
               </label>
               <input
                 type="text"
                 required
                 value={details.shippingAddress}
                 onChange={e => setDetails({ ...details, shippingAddress: e.target.value })}
-                className="w-full bg-theme-surface border border-theme focus:border-amber-500 p-2.5 text-theme-primary font-mono text-xs"
+                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] text-xs focus:outline-none"
               />
             </div>
           </div>
 
-          {/* Compliance Consent Checkboxes */}
-          <div className="space-y-3 bg-theme-bg p-4 border border-amber-500/30 text-[11px]">
-            <label className="flex items-start gap-2 cursor-pointer">
+          {/* Compliance Consent Checkbox */}
+          <div className="space-y-2 bg-[#0A0B0D] p-3 border border-[#2A2E33] text-[11px] font-body">
+            <label className="flex items-start gap-2 cursor-pointer select-none">
               <input
                 type="checkbox"
                 required
                 checked={details.ruoConsent}
                 onChange={e => setDetails({ ...details, ruoConsent: e.target.checked })}
-                className="mt-0.5 accent-amber-500"
+                className="mt-0.5"
               />
-              <span className="text-theme-secondary leading-snug">
-                <strong>MANDATORY RUO ACKNOWLEDGEMENT:</strong> I confirm materials ordered are solely FOR RESEARCH USE ONLY in laboratory settings. Not for human or veterinary use.
+              <span className="text-[#B9BEC4] leading-snug">
+                <strong className="text-[#E8E6E1]">MANDATORY RUO ACKNOWLEDGEMENT:</strong> I confirm materials ordered are solely FOR RESEARCH USE ONLY in laboratory settings. Not for human or veterinary use.
               </span>
             </label>
-            {errors.ruoConsent && (
-              <p className="text-rose-500 text-[10px] flex items-center gap-1 font-bold">
-                <AlertCircle className="w-3 h-3" /> {errors.ruoConsent}
-              </p>
-            )}
           </div>
 
-          <div className="pt-4 border-t border-theme flex items-center justify-between">
-            <span className="text-[10px] text-theme-muted flex items-center gap-1">
-              <Lock className="w-3 h-3 text-amber-500" /> 256-BIT SECURE ENCRYPTED CHECKOUT
+          <div className="pt-3 border-t border-[#2A2E33] flex items-center justify-between">
+            <span className="text-[10px] font-mono text-[#6B7178] flex items-center gap-1">
+              <IconLock size={12} />
+              <span>256-BIT ENCRYPTED PROCUREMENT</span>
             </span>
-            <Button variant="amber" size="lg" type="submit">
-              AUTHORIZE & TRANSMIT ORDER (${cartTotal.toFixed(2)}) →
+            <Button variant="amber" size="md" type="submit">
+              <span>Authorize & Transmit Order (${cartTotal.toFixed(2)}) →</span>
             </Button>
           </div>
         </form>

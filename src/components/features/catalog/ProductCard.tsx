@@ -4,7 +4,7 @@ import { Compound } from '../../../types/compound';
 import { Badge } from '../../ui/Badge';
 import { Button } from '../../ui/Button';
 import { useCart } from '../../../context/CartContext';
-import { FileCheck } from 'lucide-react';
+import { IconFileText, IconShieldCheck } from '../../ui/Icons';
 
 interface ProductCardProps {
   compound: Compound;
@@ -21,57 +21,62 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, ease: [0.2, 0, 0.2, 1] }}
-      whileHover={{ y: -3, transition: { duration: 0.14 } }}
-      className="glass-panel p-6 flex flex-col justify-between relative group border border-theme hover:border-amber-500/50 bg-theme-card"
+      transition={{ duration: 0.2, ease: [0.2, 0, 0.2, 1] }}
+      className="bg-[#16181B] border border-[#2A2E33] hover:border-[#3A3F45] p-5 flex flex-col justify-between relative group transition-colors"
     >
       {/* Top Header */}
       <div>
-        <div className="flex items-center justify-between gap-2 mb-3 font-mono">
+        <div className="flex items-center justify-between gap-2 mb-3">
           <Badge variant="amber">
-            PURITY {compound.purity.toFixed(1)}% (HPLC, area normalised)
+            PURITY {compound.purity.toFixed(1)}% (HPLC)
           </Badge>
-          <span className="text-[10px] text-emerald-500 font-bold uppercase tracking-wider flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[10px] text-[#528B66] font-mono font-bold uppercase tracking-wider flex items-center gap-1">
+            <span className="w-1.5 h-1.5 bg-[#3F6B4E]" />
             {compound.stockStatus}
           </span>
         </div>
 
+        {/* Product Name in Söhne */}
         <h3
           onClick={() => onSelect(compound)}
-          className="font-mono text-base font-bold text-theme-primary group-hover:text-amber-500 transition-colors cursor-pointer mb-1 line-clamp-1"
+          className="font-heading text-base font-bold text-[#E8E6E1] group-hover:text-[#E3A455] transition-colors cursor-pointer mb-1 line-clamp-1"
         >
           {compound.name}
         </h3>
 
-        <p className="font-mono text-[11px] text-amber-500/90 mb-3 tracking-wide font-semibold">
-          SKU: {compound.sku} | {compound.vialSize} VIAL
+        {/* SKU & Vial Size in Söhne Mono */}
+        <p className="font-mono text-[11px] text-[#6B7178] mb-3 uppercase font-semibold">
+          SKU: {compound.sku} · {compound.vialSize} VIAL
         </p>
 
-        {/* Chemical Sequence Callout */}
-        <div className="bg-theme-bg p-2.5 border border-theme mb-4 font-mono text-[11px] text-theme-secondary truncate">
-          <span className="text-theme-muted text-[9px] block uppercase">SEQUENCE:</span>
-          <span className="text-theme-primary font-semibold">{compound.sequence}</span>
+        {/* Chemical Sequence Callout in Söhne Mono */}
+        <div className="bg-[#0A0B0D] p-2.5 border border-[#2A2E33] mb-4 font-mono text-[11px] text-[#B9BEC4] truncate">
+          <span className="text-[#6B7178] text-[9px] block uppercase">SEQUENCE:</span>
+          <span className="text-[#E8E6E1] font-semibold">{compound.sequence}</span>
         </div>
 
-        <p className="text-xs text-theme-secondary line-clamp-2 leading-relaxed mb-4 font-sans">
+        {/* Description in Söhne */}
+        <p className="text-xs text-[#B9BEC4] font-body line-clamp-2 leading-relaxed mb-4">
           {compound.description}
         </p>
       </div>
 
-      {/* Footer Info & Buttons */}
-      <div className="pt-4 border-t border-theme space-y-3 font-mono">
+      {/* Footer Info & Action Buttons */}
+      <div className="pt-3 border-t border-[#2A2E33] space-y-3 font-interface">
         <div className="flex justify-between items-center text-xs">
           <button
             onClick={() => onOpenLotLookup(compound.latestLot)}
-            className="text-[10px] text-theme-secondary hover:text-amber-500 transition-colors flex items-center gap-1 underline font-semibold"
+            className="text-[11px] font-mono text-[#B9BEC4] hover:text-[#E3A455] transition-colors flex items-center gap-1 font-semibold"
+            title="Inspect Lot Certificate"
           >
-            <FileCheck className="w-3 h-3 text-amber-500" />
-            {compound.latestLot}
+            <IconFileText size={13} amberAccent={true} />
+            <span>{compound.latestLot}</span>
           </button>
-          <span className="text-base font-bold text-amber-500">${compound.price.toFixed(2)}</span>
+          <span className="text-sm font-mono font-bold text-[#E8E6E1]">
+            ${compound.price.toFixed(2)}
+          </span>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
@@ -89,7 +94,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             onClick={() => addToCart(compound)}
             className="w-full text-[11px]"
           >
-            ADD TO CART
+            ADD TO MANIFEST
           </Button>
         </div>
       </div>

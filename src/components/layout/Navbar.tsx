@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import { Search, ShoppingBag, Sun, Moon, ShieldCheck, Cpu } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { useCart } from '../../context/CartContext';
 import { Button } from '../ui/Button';
 import { Logo } from '../ui/Logo';
+import {
+  IconSearch,
+  IconShoppingBag,
+  IconSun,
+  IconMoon,
+  IconShieldCheck,
+  IconCpu
+} from '../ui/Icons';
 
 interface NavbarProps {
   activeTab: string;
@@ -27,125 +34,132 @@ export const Navbar: React.FC<NavbarProps> = ({
     if (quickLot.trim()) {
       onOpenLotLookup(quickLot.trim().toUpperCase());
       setQuickLot('');
+    } else {
+      onOpenLotLookup('LOT 24-0817-C');
     }
   };
 
   const navLinks = [
-    { id: 'home', label: 'Overview' },
-    { id: 'catalogue', label: 'Catalogue' },
-    { id: 'quality', label: 'Quality & Process' },
-    { id: 'research', label: 'Educational Center' },
-    { id: 'legal', label: 'Compliance' },
+    { id: 'catalogue', label: 'Research Products' },
+    { id: 'quality', label: 'Quality Assurance' },
+    { id: 'research', label: 'Research Information' },
+    { id: 'about', label: 'About and Contact' },
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full glass-panel border-b border-theme shadow-md">
-      {/* Top Protocol Status Bar */}
-      {/* <div className="bg-theme-surface px-4 py-1.5 border-b border-theme text-[11px] font-mono flex items-center justify-between text-theme-secondary">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1.5 text-emerald-500 font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            ANALYTICAL VERIFICATION: ACTIVE
-          </span>
-          <span className="hidden md:inline text-theme-muted">
-            US DOMESTIC COLD-CHAIN SUPPLY
-          </span>
-        </div>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => onOpenLotLookup('LOT 24-0817-C')}
-            className="hover:text-amber-500 transition-colors flex items-center gap-1 text-amber-500 font-bold"
-          >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            LOT RETRIEVAL HUB
-          </button>
-          <span className="text-theme-muted">|</span>
-          <span className="hidden sm:inline font-mono text-theme-muted">FOR RESEARCH USE ONLY</span>
-        </div>
-      </div> */}
-
-      {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Official Brand Logo SVG */}
-        <div onClick={() => setActiveTab('home')} className="cursor-pointer">
+    <header className="sticky top-0 z-40 w-full bg-[#16181B] border-b border-[#2A2E33]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+        {/* Approved Horizontal Brand Logo */}
+        <div
+          onClick={() => setActiveTab('home')}
+          className="cursor-pointer flex-shrink-0"
+          title="BioScience Depot — Home"
+        >
           <Logo size="md" />
         </div>
 
-        {/* Center Quick Lot Lookup Field with Magnifier Hover Effect */}
-        <form
-          onSubmit={handleLotSearch}
-          className="hidden lg:flex items-center relative w-80 font-mono"
-        >
-          <input
-            type="text"
-            placeholder="VERIFY LOT (e.g. 24-0817)..."
-            value={quickLot}
-            onChange={e => setQuickLot(e.target.value)}
-            className="w-full bg-theme-bg border border-theme focus:border-amber-500 text-xs pl-3 pr-10 py-2 text-theme-primary placeholder-theme-muted uppercase tracking-wider focus:outline-none transition-colors"
-          />
-          <button
-            type="submit"
-            className="absolute right-2 text-amber-500 hover:text-amber-400 p-1 group flex items-center justify-center"
-            title="Search & Verify Lot"
-          >
-            <Search className="w-4 h-4 transition-transform duration-140 group-hover:scale-125" />
-          </button>
-        </form>
-
-        {/* Navigation Tabs */}
-        <nav className="hidden md:flex items-center gap-1 font-mono text-xs">
-          {navLinks.map(link => (
-            <button
-              key={link.id}
-              onClick={() => setActiveTab(link.id)}
-              className={`px-3 py-2 transition-all uppercase tracking-wider ${
-                activeTab === link.id
-                  ? 'text-amber-500 font-bold border-b-2 border-amber-500 bg-amber-500/10'
-                  : 'text-theme-primary hover:text-amber-500 hover:bg-theme-surface'
-              }`}
-            >
-              {link.label}
-            </button>
-          ))}
+        {/* Simplified Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-1 font-interface text-xs">
+          {navLinks.map(link => {
+            const isActive = activeTab === link.id;
+            return (
+              <button
+                key={link.id}
+                onClick={() => setActiveTab(link.id)}
+                className={`px-3 py-2 transition-colors uppercase tracking-wider font-semibold ${
+                  isActive
+                    ? 'text-[#E8E6E1] bg-[#1E2126] border-b-2 border-[#BE7A28]'
+                    : 'text-[#B9BEC4] hover:text-[#E8E6E1] hover:bg-[#1E2126]/60'
+                }`}
+              >
+                {link.label}
+              </button>
+            );
+          })}
         </nav>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-2">
+        {/* Right-Side Utilities: Quick Lot Search, "Verify a Lot" CTA, Theme Toggle, Cart */}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Quick Lot Input for large screens */}
+          <form
+            onSubmit={handleLotSearch}
+            className="hidden xl:flex items-center relative w-56 font-mono"
+          >
+            <input
+              type="text"
+              placeholder="LOT NO. (24-0817)..."
+              value={quickLot}
+              onChange={e => setQuickLot(e.target.value)}
+              className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] text-[11px] pl-3 pr-8 py-1.5 text-[#E8E6E1] placeholder-[#6B7178] uppercase tracking-wider focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="absolute right-2 text-[#6B7178] hover:text-[#E3A455] transition-colors"
+              title="Verify Lot"
+            >
+              <IconSearch size={14} />
+            </button>
+          </form>
+
+          {/* Right-side utility: "Verify a Lot" Button */}
           <Button
             variant="outline"
             size="sm"
-            onClick={onOpenSynthesis}
-            className="hidden sm:flex items-center gap-1.5 text-[11px]"
+            onClick={() => onOpenLotLookup('LOT 24-0817-C')}
+            className="flex items-center gap-1.5 text-[11px] text-[#E8E6E1] hover:text-[#E3A455]"
           >
-            <Cpu className="w-5.5 h-5.5" />
-            SYNTHESIS ENQUIRY
+            <IconShieldCheck size={14} amberAccent={true} />
+            <span className="hidden sm:inline">Verify a Lot</span>
+            <span className="sm:hidden">Verify</span>
           </Button>
 
+          {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 border border-theme text-theme-primary hover:text-amber-500 hover:border-amber-500 transition-colors bg-theme-surface"
+            className="p-2 border border-[#2A2E33] text-[#B9BEC4] hover:text-[#E8E6E1] hover:border-[#3A3F45] transition-colors bg-[#16181B] flex-shrink-0"
             title="Toggle Light/Dark Theme"
           >
             {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
+              <IconSun size={15} />
             ) : (
-              <Moon className="w-4 h-4 text-amber-600" />
+              <IconMoon size={15} />
             )}
           </button>
 
+          {/* Shopping Cart Drawer Trigger */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative p-2 border border-amber-500/40 bg-theme-surface text-amber-500 hover:bg-amber-500 hover:text-obsidian-950 transition-colors"
-            title="Cart"
+            className="relative p-2 border border-[#2A2E33] bg-[#1E2126] text-[#E8E6E1] hover:border-[#BE7A28] transition-colors flex-shrink-0"
+            title="Manifest Cart"
           >
-            <ShoppingBag className="w-4 h-4" />
+            <IconShoppingBag size={15} />
             {cartItemCount > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 bg-amber-500 text-obsidian-950 font-mono font-bold text-[10px] w-4 h-4 flex items-center justify-center">
+              <span className="absolute -top-1.5 -right-1.5 bg-[#BE7A28] text-[#0A0B0D] font-mono font-bold text-[9px] w-4 h-4 flex items-center justify-center">
                 {cartItemCount}
               </span>
             )}
           </button>
         </div>
+      </div>
+
+      {/* Mobile Navigation Strip */}
+      <div className="lg:hidden flex items-center justify-between overflow-x-auto px-4 py-2 border-t border-[#2A2E33] bg-[#0A0B0D] text-[11px] font-interface gap-2">
+        {navLinks.map(link => {
+          const isActive = activeTab === link.id;
+          return (
+            <button
+              key={link.id}
+              onClick={() => setActiveTab(link.id)}
+              className={`px-2 py-1 whitespace-nowrap uppercase tracking-wider font-semibold ${
+                isActive
+                  ? 'text-[#E8E6E1] bg-[#1E2126] border-b border-[#BE7A28]'
+                  : 'text-[#B9BEC4]'
+              }`}
+            >
+              {link.label}
+            </button>
+          );
+        })}
       </div>
     </header>
   );
