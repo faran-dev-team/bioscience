@@ -66,9 +66,9 @@ export const Logo: React.FC<LogoProps> = ({
           <span className={`font-mono font-bold tracking-widest uppercase text-theme-primary leading-tight ${currentSize.title}`}>
             BioScience Depot
           </span>
-          <span className={`font-mono text-amber-500 tracking-wider uppercase ${currentSize.sub}`}>
+          {/* <span className={`font-mono text-amber-500 tracking-wider uppercase ${currentSize.sub}`}>
             Research Peptides — US
-          </span>
+          </span> */}
         </div>
       )}
     </div>

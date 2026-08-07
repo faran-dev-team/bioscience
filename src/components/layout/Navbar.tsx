@@ -41,7 +41,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-40 w-full glass-panel border-b border-theme shadow-md">
       {/* Top Protocol Status Bar */}
-      <div className="bg-theme-surface px-4 py-1.5 border-b border-theme text-[11px] font-mono flex items-center justify-between text-theme-secondary">
+      {/* <div className="bg-theme-surface px-4 py-1.5 border-b border-theme text-[11px] font-mono flex items-center justify-between text-theme-secondary">
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5 text-emerald-500 font-semibold">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -62,7 +62,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <span className="text-theme-muted">|</span>
           <span className="hidden sm:inline font-mono text-theme-muted">FOR RESEARCH USE ONLY</span>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
@@ -101,7 +101,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`px-3 py-2 transition-all uppercase tracking-wider ${
                 activeTab === link.id
                   ? 'text-amber-500 font-bold border-b-2 border-amber-500 bg-amber-500/10'
-                  : 'text-theme-secondary hover:text-amber-500 hover:bg-theme-surface'
+                  : 'text-theme-primary hover:text-amber-500 hover:bg-theme-surface'
               }`}
             >
               {link.label}
@@ -117,7 +117,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={onOpenSynthesis}
             className="hidden sm:flex items-center gap-1.5 text-[11px]"
           >
-            <Cpu className="w-3.5 h-3.5" />
+            <Cpu className="w-5.5 h-5.5" />
             SYNTHESIS ENQUIRY
           </Button>
 
