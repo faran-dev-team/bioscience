@@ -277,3 +277,12 @@ export const IconInstrument: React.FC<IconProps> = ({ size = 24, className = '',
     <circle cx="12" cy="12" r="1.2" fill={amberAccent ? '#BE7A28' : 'currentColor'} stroke="none" />
   </svg>
 );
+
+// 29. Menu / Hamburger Icon (0° horizontal bars, butt caps, 24x24 grid, 1.6px uniform stroke)
+export const IconMenu: React.FC<IconProps> = ({ size = 20, className = '', ...props }) => (
+  <svg width={size} height={size} {...defaultProps} className={className} {...props}>
+    <line x1="3" y1="6" x2="21" y2="6" />
+    <line x1="3" y1="12" x2="21" y2="12" />
+    <line x1="3" y1="18" x2="21" y2="18" />
+  </svg>
+);

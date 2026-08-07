@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { useCart } from '../../context/CartContext';
 import { Button } from '../ui/Button';
@@ -8,7 +9,11 @@ import {
   IconShoppingBag,
   IconSun,
   IconMoon,
-  IconShieldCheck
+  IconShieldCheck,
+  IconMenu,
+  IconClose,
+  IconCpu,
+  IconArrowRight
 } from '../ui/Icons';
 
 interface NavbarProps {
@@ -22,41 +27,61 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
   setActiveTab,
   onOpenLotLookup,
+  onOpenSynthesis,
 }) => {
   const { theme, toggleTheme } = useTheme();
   const { cartItemCount, setIsCartOpen } = useCart();
   const [quickLot, setQuickLot] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Close mobile drawer on route change or screen resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleLotSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (quickLot.trim()) {
       onOpenLotLookup(quickLot.trim().toUpperCase());
       setQuickLot('');
+      setMobileMenuOpen(false);
     } else {
       onOpenLotLookup('LOT 24-0817-C');
+      setMobileMenuOpen(false);
     }
   };
 
   const navLinks = [
-    { id: 'catalogue', label: 'Research Products' },
-    { id: 'quality', label: 'Quality Assurance' },
-    { id: 'research', label: 'Research Information' },
-    { id: 'about', label: 'About and Contact' },
+    { id: 'catalogue', label: 'Research Products', desc: 'Browse HPLC-verified peptide catalog' },
+    { id: 'quality', label: 'Quality Assurance', desc: 'Analytical testing & HPLC methodologies' },
+    { id: 'research', label: 'Research Information', desc: 'Reconstitution & handling protocols' },
+    { id: 'about', label: 'About and Contact', desc: 'US domestic operations & support' },
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-theme-surface border-b border-theme transition-colors duration-150">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+    <header className="sticky top-0 z-40 w-full bg-theme-surface/95 backdrop-blur-md border-b border-theme transition-colors duration-150">
+      {/* Primary Top Bar */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Approved Horizontal Brand Logo */}
         <div
-          onClick={() => setActiveTab('home')}
+          onClick={() => {
+            setActiveTab('home');
+            setMobileMenuOpen(false);
+          }}
           className="cursor-pointer flex-shrink-0"
           title="BioScience Depot — Home"
         >
-          <Logo size="md" />
+          <Logo size="md" showSubtitle={false} className="hidden sm:inline-flex" />
+          <Logo size="sm" showSubtitle={false} className="sm:hidden" />
         </div>
 
-        {/* Simplified Navigation Links */}
+        {/* Desktop Simplified Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 font-interface text-xs">
           {navLinks.map(link => {
             const isActive = activeTab === link.id;
@@ -76,8 +101,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           })}
         </nav>
 
-        {/* Right-Side Utilities: Quick Lot Search, "Verify a Lot" CTA, Theme Toggle, Cart */}
-        <div className="flex items-center gap-2 flex-shrink-0">
+        {/* Right-Side Utilities: Search, Verify a Lot, Theme Toggle, Cart, Mobile Menu */}
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           {/* Quick Lot Input for large screens */}
           <form
             onSubmit={handleLotSearch}
@@ -104,18 +129,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             variant="outline"
             size="sm"
             onClick={() => onOpenLotLookup('LOT 24-0817-C')}
-            className="flex items-center gap-1.5 text-[11px]"
+            className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] px-2 sm:px-3 py-1.5 h-8 sm:h-9"
           >
-            <IconShieldCheck size={14} amberAccent={true} />
+            <IconShieldCheck size={13} amberAccent={true} />
             <span className="hidden sm:inline">Verify a Lot</span>
-            <span className="sm:hidden">Verify</span>
+            <span className="sm:hidden text-[10px]">Verify</span>
           </Button>
 
-          {/* Theme Toggle (Sun in Dark Mode, Moon in Light Mode) */}
+          {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2 border border-theme text-theme-secondary hover:text-theme-primary hover:border-theme-amber transition-colors bg-theme-surface flex-shrink-0"
+            className="p-2 border border-theme text-theme-secondary hover:text-theme-primary hover:border-theme-amber transition-colors bg-theme-surface flex items-center justify-center h-8 sm:h-9 w-8 sm:w-9 flex-shrink-0"
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+            aria-label="Toggle Theme"
           >
             {theme === 'dark' ? (
               <IconSun size={15} />
@@ -127,31 +153,141 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Shopping Cart Drawer Trigger */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative p-2 border border-theme bg-theme-raised text-theme-primary hover:border-theme-amber transition-colors flex-shrink-0"
-            title="Manifest Cart"
+            className="relative p-2 border border-theme bg-theme-raised text-theme-primary hover:border-theme-amber transition-colors flex items-center justify-center h-8 sm:h-9 w-8 sm:w-9 flex-shrink-0"
+            title="Order Manifest Cart"
+            aria-label="View Cart"
           >
             <IconShoppingBag size={15} />
             {cartItemCount > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 bg-[#BE7A28] text-[#0A0B0D] font-mono font-bold text-[9px] w-4 h-4 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-[#BE7A28] text-[#0A0B0D] font-mono font-bold text-[9px] w-4 h-4 flex items-center justify-center">
                 {cartItemCount}
               </span>
+            )}
+          </button>
+
+          {/* Mobile Menu Hamburger Toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden p-2 border border-theme text-theme-primary hover:border-theme-amber transition-colors bg-theme-surface flex items-center justify-center h-8 sm:h-9 w-8 sm:w-9 flex-shrink-0"
+            title={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
+            aria-label="Toggle Mobile Menu"
+          >
+            {mobileMenuOpen ? (
+              <IconClose size={16} />
+            ) : (
+              <IconMenu size={16} />
             )}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Strip */}
-      <div className="lg:hidden flex items-center justify-between overflow-x-auto px-4 py-2 border-t border-theme bg-theme-canvas text-[11px] font-interface gap-2">
+      {/* Mobile Animated Slide-down Full Navigation Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2, ease: [0.2, 0, 0.2, 1] }}
+            className="lg:hidden border-t border-theme bg-theme-surface px-4 py-4 space-y-4 font-interface overflow-hidden shadow-2xl transition-colors duration-150"
+          >
+            {/* Mobile Quick Lot Lookup Input */}
+            <form onSubmit={handleLotSearch} className="flex gap-2 font-mono text-xs">
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  placeholder="ENTER VIAL LOT NUMBER..."
+                  value={quickLot}
+                  onChange={e => setQuickLot(e.target.value)}
+                  className="w-full bg-theme-canvas border border-theme focus:border-theme-amber text-xs pl-3 pr-9 py-2.5 text-theme-primary placeholder-theme-muted uppercase tracking-wider focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="absolute right-2.5 top-2.5 text-theme-muted hover:text-amber-hover"
+                  title="Search Lot"
+                >
+                  <IconSearch size={15} />
+                </button>
+              </div>
+              <Button variant="amber" size="sm" type="submit" className="px-3 py-2.5 text-xs">
+                <span>Verify</span>
+              </Button>
+            </form>
+
+            {/* Mobile Navigation Links with Rich Context */}
+            <div className="space-y-1 pt-1 border-t border-theme">
+              {navLinks.map(link => {
+                const isActive = activeTab === link.id;
+                return (
+                  <button
+                    key={link.id}
+                    onClick={() => {
+                      setActiveTab(link.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2.5 text-xs flex items-center justify-between transition-colors ${
+                      isActive
+                        ? 'text-theme-primary bg-theme-raised border-l-2 border-theme-amber font-bold'
+                        : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-raised/50'
+                    }`}
+                  >
+                    <div>
+                      <p className="uppercase tracking-wider font-semibold">{link.label}</p>
+                      <p className="text-[10px] text-theme-muted font-normal normal-case">{link.desc}</p>
+                    </div>
+                    <IconArrowRight size={13} className={isActive ? 'text-amber-hover' : 'text-theme-muted'} />
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Quick Action Buttons in Mobile Menu */}
+            <div className="pt-2 border-t border-theme grid grid-cols-2 gap-2 text-xs">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  onOpenLotLookup('LOT 24-0817-C');
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-center gap-1.5 text-[11px] py-2"
+              >
+                <IconShieldCheck size={13} amberAccent={true} />
+                <span>Verify a Lot</span>
+              </Button>
+
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  onOpenSynthesis();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-center gap-1.5 text-[11px] py-2"
+              >
+                <IconCpu size={13} />
+                <span>Synthesis</span>
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Horizontal Quick-Scroll Tab Strip */}
+      <div className="lg:hidden flex items-center justify-between overflow-x-auto px-3 sm:px-4 py-2 border-t border-theme bg-theme-canvas text-[11px] font-interface gap-1.5 no-scrollbar">
         {navLinks.map(link => {
           const isActive = activeTab === link.id;
           return (
             <button
               key={link.id}
-              onClick={() => setActiveTab(link.id)}
-              className={`px-2 py-1 whitespace-nowrap uppercase tracking-wider font-semibold ${
+              onClick={() => {
+                setActiveTab(link.id);
+                setMobileMenuOpen(false);
+              }}
+              className={`px-2.5 py-1 whitespace-nowrap uppercase tracking-wider font-semibold text-[10.5px] transition-colors ${
                 isActive
-                  ? 'text-theme-primary bg-theme-raised border-b border-theme-amber'
-                  : 'text-theme-secondary'
+                  ? 'text-theme-primary bg-theme-raised border-b-2 border-theme-amber'
+                  : 'text-theme-secondary hover:text-theme-primary'
               }`}
             >
               {link.label}
