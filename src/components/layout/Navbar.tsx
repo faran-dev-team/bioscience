@@ -71,14 +71,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           <Logo size="md" />
         </div>
 
-        {/* Center Quick Lot Lookup Field with Magnifier Hover Effect & pr-10 */}
+        {/* Center Quick Lot Lookup Field with Magnifier Hover Effect */}
         <form
           onSubmit={handleLotSearch}
-          className="hidden lg:flex items-center relative w-72 font-mono"
+          className="hidden lg:flex items-center relative w-80 font-mono"
         >
           <input
             type="text"
-            placeholder="VERIFY LOT (e.g. LOT 24-0817-C)..."
+            placeholder="VERIFY LOT (e.g. 24-0817)..."
             value={quickLot}
             onChange={e => setQuickLot(e.target.value)}
             className="w-full bg-theme-bg border border-theme focus:border-amber-500 text-xs pl-3 pr-10 py-2 text-theme-primary placeholder-theme-muted uppercase tracking-wider focus:outline-none transition-colors"
