@@ -23,7 +23,7 @@
     font-display: swap;
   }
 
-  :root {
+  :root, html.dark {
     --bg-canvas: #0A0B0D;
     --bg-surface: #16181B;
     --bg-raised: #1E2126;
@@ -36,7 +36,7 @@
     --accent-amber-hover: #E3A455;
     --verified-green: #3F6B4E;
     --verified-green-light: #528B66;
-    --input-bg: #16181B;
+    --input-bg: #0A0B0D;
   }
 
   html.light {
@@ -51,6 +51,7 @@
     --accent-amber: #BE7A28;
     --accent-amber-hover: #A4661E;
     --verified-green: #3F6B4E;
+    --verified-green-light: #2E533C;
     --input-bg: #FFFFFF;
   }
 
@@ -63,7 +64,7 @@
     color: var(--text-primary);
     font-family: 'Söhne', 'Soehne', 'Inter', -apple-system, sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    transition: background-color 120ms ease, color 120ms ease;
+    transition: background-color 150ms ease, color 150ms ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -107,7 +108,7 @@
 }
 
 .bg-theme-bg {
-  background-color: var(--bg-surface) !important;
+  background-color: var(--bg-canvas) !important;
 }
 
 .bg-theme-card {
@@ -156,7 +157,7 @@
 }
 
 .brand-card:hover {
-  border-color: #3A3F45;
+  border-color: var(--border-highlight);
 }
 
 .glass-panel {

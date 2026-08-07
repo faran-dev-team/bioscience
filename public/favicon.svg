@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <!-- Brand Canvas Background -->
+  <rect width="24" height="24" fill="#0A0B0D"/>
+  
+  <!-- Outer Precision Ring (1.6px uniform stroke, #2A2E33 / #E8E6E1) -->
+  <circle cx="12" cy="12" r="9" stroke="#E8E6E1" stroke-width="1.6" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"/>
+  
+  <!-- Inner Core Reticle (1.6px stroke) -->
+  <circle cx="12" cy="12" r="4.5" stroke="#E8E6E1" stroke-width="1.6" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"/>
+  
+  <!-- Horizontal Reticle Ticks (1.6px uniform stroke) -->
+  <line x1="3" y1="12" x2="6.5" y2="12" stroke="#E8E6E1" stroke-width="1.6" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"/>
+  <line x1="17.5" y1="12" x2="21" y2="12" stroke="#E8E6E1" stroke-width="1.6" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"/>
+  
+  <!-- Vertical Calibration Axis in Reagent Amber (#BE7A28) - Single Amber Element -->
+  <line x1="12" y1="2" x2="12" y2="22" stroke="#BE7A28" stroke-width="1.6" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"/>
+  
+  <!-- Center Instrument Point -->
+  <circle cx="12" cy="12" r="1.2" fill="#BE7A28"/>
+</svg>

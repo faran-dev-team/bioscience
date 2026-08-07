@@ -23,7 +23,7 @@ export const Logo: React.FC<LogoProps> = ({
     <div className={`inline-flex items-center gap-3 select-none ${className}`}>
       {/* Precision Calibrated Instrument Mark (24x24 outline SVG with 1.6px uniform stroke, butt caps, mitre join, single amber vertical axis) */}
       <div
-        className={`${currentSize.box} flex items-center justify-center bg-[#16181B] border border-[#2A2E33] hover:border-[#BE7A28] transition-colors flex-shrink-0`}
+        className={`${currentSize.box} flex items-center justify-center bg-theme-surface border border-theme hover:border-[#BE7A28] transition-colors flex-shrink-0`}
       >
         <svg
           width={currentSize.svg}
@@ -35,17 +35,17 @@ export const Logo: React.FC<LogoProps> = ({
           strokeLinecap="butt"
           strokeLinejoin="miter"
           strokeMiterlimit={10}
-          className="text-[#E8E6E1]"
+          className="text-theme-primary"
         >
           {/* Outer Scribed Precision Ring */}
-          <circle cx="12" cy="12" r="9" stroke="#E8E6E1" />
+          <circle cx="12" cy="12" r="9" stroke="currentColor" />
           {/* Inner Core Precision Mark */}
-          <circle cx="12" cy="12" r="4.5" stroke="#E8E6E1" />
+          <circle cx="12" cy="12" r="4.5" stroke="currentColor" />
           {/* Vertical Calibration Axis (Reagent Amber #BE7A28) */}
           <line x1="12" y1="2" x2="12" y2="22" stroke="#BE7A28" />
           {/* Horizontal Reticle Marks */}
-          <line x1="3" y1="12" x2="6.5" y2="12" stroke="#E8E6E1" />
-          <line x1="17.5" y1="12" x2="21" y2="12" stroke="#E8E6E1" />
+          <line x1="3" y1="12" x2="6.5" y2="12" stroke="currentColor" />
+          <line x1="17.5" y1="12" x2="21" y2="12" stroke="currentColor" />
           {/* Center Point */}
           <circle cx="12" cy="12" r="1.2" fill="#BE7A28" stroke="none" />
         </svg>
@@ -53,11 +53,11 @@ export const Logo: React.FC<LogoProps> = ({
 
       {/* Horizontal Brand Typography */}
       <div className="flex flex-col justify-center">
-        <span className={`font-display font-bold tracking-tight uppercase text-[#E8E6E1] leading-none ${currentSize.title}`}>
+        <span className={`font-display font-bold tracking-tight uppercase text-theme-primary leading-none ${currentSize.title}`}>
           BioScience Depot
         </span>
         {showSubtitle && (
-          <span className={`font-mono text-[#6B7178] tracking-wider uppercase mt-1 leading-none ${currentSize.sub}`}>
+          <span className={`font-mono text-theme-muted tracking-wider uppercase mt-1 leading-none ${currentSize.sub}`}>
             Analytical Research Supply · US
           </span>
         )}

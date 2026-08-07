@@ -77,17 +77,17 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
     >
       {submitted ? (
         <div className="text-center py-10 space-y-3 font-body">
-          <div className="w-12 h-12 bg-[#18241C] border border-[#3F6B4E] text-[#528B66] flex items-center justify-center mx-auto">
+          <div className="w-12 h-12 bg-verified-bg border border-verified text-verified-light flex items-center justify-center mx-auto">
             <IconCheckCircle size={24} />
           </div>
-          <h3 className="text-base font-heading font-bold text-[#E8E6E1] uppercase tracking-wider">
+          <h3 className="text-base font-heading font-bold text-theme-primary uppercase tracking-wider">
             ORDER CONFIRMED & QUEUED FOR COLD-CHAIN DISPATCH
           </h3>
-          <p className="text-xs text-[#E8E6E1] font-mono font-bold">
+          <p className="text-xs text-theme-primary font-mono font-bold">
             PROCUREMENT REFERENCE: {orderRef}
           </p>
-          <p className="text-xs text-[#B9BEC4] max-w-md mx-auto leading-relaxed">
-            A confirmation receipt and Certificate of Analysis package have been dispatched to <span className="text-[#E8E6E1] font-mono">{details.email}</span>. Your shipment will be prepared under temperature-controlled packaging.
+          <p className="text-xs text-theme-secondary max-w-md mx-auto leading-relaxed">
+            A confirmation receipt and Certificate of Analysis package have been dispatched to <span className="text-theme-primary font-mono">{details.email}</span>. Your shipment will be prepared under temperature-controlled packaging.
           </p>
           <Button variant="primary" size="md" onClick={handleFinish} className="mt-3">
             <span>Return to Overview</span>
@@ -96,17 +96,17 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4 font-interface text-xs">
           {/* Order Summary Line */}
-          <div className="bg-[#0A0B0D] p-3.5 border border-[#2A2E33] flex justify-between items-center">
+          <div className="bg-theme-canvas p-3.5 border border-theme flex justify-between items-center transition-colors">
             <div>
-              <p className="text-[#E8E6E1] font-heading font-bold uppercase text-xs">Manifest Total ({cart.length} items):</p>
-              <p className="text-[10px] font-mono text-[#6B7178]">INCLUDES TEMPERATURE-CONTROLLED COLD SHIPPING</p>
+              <p className="text-theme-primary font-heading font-bold uppercase text-xs">Manifest Total ({cart.length} items):</p>
+              <p className="text-[10px] font-mono text-theme-muted">INCLUDES TEMPERATURE-CONTROLLED COLD SHIPPING</p>
             </div>
-            <span className="text-base font-mono font-bold text-[#E8E6E1]">${cartTotal.toFixed(2)} USD</span>
+            <span className="text-base font-mono font-bold text-theme-primary">${cartTotal.toFixed(2)} USD</span>
           </div>
 
           {/* Payment Method Selector */}
           <div>
-            <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+            <label className="block text-theme-secondary uppercase tracking-wider font-semibold mb-1 text-[11px]">
               Payment Method & Procurement Type *
             </label>
             <div className="grid grid-cols-2 gap-2.5">
@@ -118,14 +118,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                 }}
                 className={`p-2.5 border text-left flex items-center gap-2.5 transition-colors ${
                   details.paymentMethod === 'PURCHASE_ORDER'
-                    ? 'border-[#BE7A28] bg-[#BE7A28]/10 text-[#E8E6E1]'
-                    : 'border-[#2A2E33] bg-[#0A0B0D] text-[#B9BEC4] hover:bg-[#16181B]'
+                    ? 'border-theme-amber bg-theme-amber/10 text-theme-primary'
+                    : 'border-theme bg-theme-canvas text-theme-secondary hover:bg-theme-raised'
                 }`}
               >
                 <IconFileText size={16} amberAccent={details.paymentMethod === 'PURCHASE_ORDER'} />
                 <div>
                   <p className="text-xs uppercase font-bold">Institutional PO (Net 30)</p>
-                  <p className="text-[10px] text-[#6B7178]">Purchase Order Invoice</p>
+                  <p className="text-[10px] text-theme-muted">Purchase Order Invoice</p>
                 </div>
               </button>
 
@@ -137,14 +137,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                 }}
                 className={`p-2.5 border text-left flex items-center gap-2.5 transition-colors ${
                   details.paymentMethod === 'CREDIT_CARD'
-                    ? 'border-[#BE7A28] bg-[#BE7A28]/10 text-[#E8E6E1]'
-                    : 'border-[#2A2E33] bg-[#0A0B0D] text-[#B9BEC4] hover:bg-[#16181B]'
+                    ? 'border-theme-amber bg-theme-amber/10 text-theme-primary'
+                    : 'border-theme bg-theme-canvas text-theme-secondary hover:bg-theme-raised'
                 }`}
               >
                 <IconShieldCheck size={16} amberAccent={details.paymentMethod === 'CREDIT_CARD'} />
                 <div>
                   <p className="text-xs uppercase font-bold">Corporate Credit Card</p>
-                  <p className="text-[10px] text-[#6B7178]">Instant Direct Authorization</p>
+                  <p className="text-[10px] text-theme-muted">Instant Direct Authorization</p>
                 </div>
               </button>
             </div>
@@ -153,7 +153,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
           {/* PO Number Field if PO chosen */}
           {details.paymentMethod === 'PURCHASE_ORDER' ? (
             <div>
-              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+              <label className="block text-theme-secondary uppercase tracking-wider font-semibold mb-1 text-[11px]">
                 Institutional PO Number *
               </label>
               <input
@@ -165,15 +165,15 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                   if (errors.poNumber) setErrors({ ...errors, poNumber: '' });
                 }}
                 placeholder="e.g. PO-2024-99120"
-                className={`w-full bg-[#0A0B0D] border p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none ${
-                  errors.poNumber ? 'border-[#BE7A28]' : 'border-[#2A2E33] focus:border-[#BE7A28]'
+                className={`w-full bg-theme-canvas border p-2 text-theme-primary font-mono text-xs focus:outline-none transition-colors ${
+                  errors.poNumber ? 'border-theme-amber' : 'border-theme focus:border-theme-amber'
                 }`}
               />
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 bg-[#0A0B0D] p-3 border border-[#2A2E33]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 bg-theme-canvas p-3 border border-theme transition-colors">
               <div className="md:col-span-3">
-                <label className="block text-[#B9BEC4] uppercase font-semibold mb-1 text-[11px]">Card Number *</label>
+                <label className="block text-theme-secondary uppercase font-semibold mb-1 text-[11px]">Card Number *</label>
                 <input
                   type="text"
                   required
@@ -183,31 +183,31 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                     setDetails({ ...details, cardNumber: e.target.value });
                     if (errors.cardNumber) setErrors({ ...errors, cardNumber: '' });
                   }}
-                  className="w-full bg-[#16181B] border border-[#2A2E33] p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none focus:border-[#BE7A28]"
+                  className="w-full bg-theme-surface border border-theme p-2 text-theme-primary font-mono text-xs focus:outline-none focus:border-theme-amber transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-[#B9BEC4] uppercase font-semibold mb-1 text-[11px]">Expiry (MM/YY) *</label>
+                <label className="block text-theme-secondary uppercase font-semibold mb-1 text-[11px]">Expiry (MM/YY) *</label>
                 <input
                   type="text"
                   required
                   placeholder="12/28"
                   value={details.cardExpiry || ''}
                   onChange={e => setDetails({ ...details, cardExpiry: e.target.value })}
-                  className="w-full bg-[#16181B] border border-[#2A2E33] p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none focus:border-[#BE7A28]"
+                  className="w-full bg-theme-surface border border-theme p-2 text-theme-primary font-mono text-xs focus:outline-none focus:border-theme-amber transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-[#B9BEC4] uppercase font-semibold mb-1 text-[11px]">CVC Code *</label>
+                <label className="block text-theme-secondary uppercase font-semibold mb-1 text-[11px]">CVC Code *</label>
                 <input
                   type="text"
                   required
                   placeholder="884"
                   value={details.cardCvc || ''}
                   onChange={e => setDetails({ ...details, cardCvc: e.target.value })}
-                  className="w-full bg-[#16181B] border border-[#2A2E33] p-2 text-[#E8E6E1] font-mono text-xs focus:outline-none focus:border-[#BE7A28]"
+                  className="w-full bg-theme-surface border border-theme p-2 text-theme-primary font-mono text-xs focus:outline-none focus:border-theme-amber transition-colors"
                 />
               </div>
             </div>
@@ -216,7 +216,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
           {/* Address & Institution Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+              <label className="block text-theme-secondary uppercase tracking-wider font-semibold mb-1 text-[11px]">
                 Institution / Company Name *
               </label>
               <input
@@ -224,12 +224,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                 required
                 value={details.institutionName}
                 onChange={e => setDetails({ ...details, institutionName: e.target.value })}
-                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] text-xs focus:outline-none"
+                className="w-full bg-theme-canvas border border-theme focus:border-theme-amber p-2 text-theme-primary text-xs focus:outline-none transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+              <label className="block text-theme-secondary uppercase tracking-wider font-semibold mb-1 text-[11px]">
                 Lab / Department Name *
               </label>
               <input
@@ -237,12 +237,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                 required
                 value={details.departmentName}
                 onChange={e => setDetails({ ...details, departmentName: e.target.value })}
-                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] text-xs focus:outline-none"
+                className="w-full bg-theme-canvas border border-theme focus:border-theme-amber p-2 text-theme-primary text-xs focus:outline-none transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+              <label className="block text-theme-secondary uppercase tracking-wider font-semibold mb-1 text-[11px]">
                 Researcher Contact Name *
               </label>
               <input
@@ -250,12 +250,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                 required
                 value={details.contactName}
                 onChange={e => setDetails({ ...details, contactName: e.target.value })}
-                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] text-xs focus:outline-none"
+                className="w-full bg-theme-canvas border border-theme focus:border-theme-amber p-2 text-theme-primary text-xs focus:outline-none transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+              <label className="block text-theme-secondary uppercase tracking-wider font-semibold mb-1 text-[11px]">
                 Institutional Email *
               </label>
               <input
@@ -263,12 +263,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                 required
                 value={details.email}
                 onChange={e => setDetails({ ...details, email: e.target.value })}
-                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] text-xs focus:outline-none"
+                className="w-full bg-theme-canvas border border-theme focus:border-theme-amber p-2 text-theme-primary text-xs focus:outline-none transition-colors"
               />
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-[#B9BEC4] uppercase tracking-wider font-semibold mb-1 text-[11px]">
+              <label className="block text-theme-secondary uppercase tracking-wider font-semibold mb-1 text-[11px]">
                 Shipping Delivery Address (Street, Suite, Dock) *
               </label>
               <input
@@ -276,13 +276,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                 required
                 value={details.shippingAddress}
                 onChange={e => setDetails({ ...details, shippingAddress: e.target.value })}
-                className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] p-2 text-[#E8E6E1] text-xs focus:outline-none"
+                className="w-full bg-theme-canvas border border-theme focus:border-theme-amber p-2 text-theme-primary text-xs focus:outline-none transition-colors"
               />
             </div>
           </div>
 
           {/* Compliance Consent Checkbox */}
-          <div className="space-y-2 bg-[#0A0B0D] p-3 border border-[#2A2E33] text-[11px] font-body">
+          <div className="space-y-2 bg-theme-canvas p-3 border border-theme text-[11px] font-body transition-colors">
             <label className="flex items-start gap-2 cursor-pointer select-none">
               <input
                 type="checkbox"
@@ -291,14 +291,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ isOpen, onClose })
                 onChange={e => setDetails({ ...details, ruoConsent: e.target.checked })}
                 className="mt-0.5"
               />
-              <span className="text-[#B9BEC4] leading-snug">
-                <strong className="text-[#E8E6E1]">MANDATORY RUO ACKNOWLEDGEMENT:</strong> I confirm materials ordered are solely FOR RESEARCH USE ONLY in laboratory settings. Not for human or veterinary use.
+              <span className="text-theme-secondary leading-snug">
+                <strong className="text-theme-primary">MANDATORY RUO ACKNOWLEDGEMENT:</strong> I confirm materials ordered are solely FOR RESEARCH USE ONLY in laboratory settings. Not for human or veterinary use.
               </span>
             </label>
           </div>
 
-          <div className="pt-3 border-t border-[#2A2E33] flex items-center justify-between">
-            <span className="text-[10px] font-mono text-[#6B7178] flex items-center gap-1">
+          <div className="pt-3 border-t border-theme flex items-center justify-between">
+            <span className="text-[10px] font-mono text-theme-muted flex items-center gap-1">
               <IconLock size={12} />
               <span>256-BIT ENCRYPTED PROCUREMENT</span>
             </span>

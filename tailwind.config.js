@@ -8,21 +8,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        canvas: '#0A0B0D',
-        surface: '#16181B',
-        raised: '#1E2126',
+        canvas: 'var(--bg-canvas)',
+        surface: 'var(--bg-surface)',
+        raised: 'var(--bg-raised)',
         border: {
-          DEFAULT: '#2A2E33',
-          subtle: '#1E2126',
-          strong: '#3A3F45',
+          DEFAULT: 'var(--border-color)',
+          subtle: 'var(--border-color)',
+          strong: 'var(--border-highlight)',
         },
-        obsidian: {
-          950: '#0A0B0D',
-          900: '#0A0B0D',
-          850: '#16181B',
-          800: '#1E2126',
-          700: '#2A2E33',
-        },
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-muted': 'var(--text-metadata)',
         amber: {
           400: '#E3A455',
           500: '#BE7A28',
@@ -35,25 +31,6 @@ export default {
           DEFAULT: '#3F6B4E',
           light: '#528B66',
           bg: '#18241C',
-        },
-        brand: {
-          canvas: '#0A0B0D',
-          surface: '#16181B',
-          raised: '#1E2126',
-          border: '#2A2E33',
-          text: '#E8E6E1',
-          secondary: '#B9BEC4',
-          metadata: '#6B7178',
-          amber: '#BE7A28',
-          amberHover: '#E3A455',
-          verified: '#3F6B4E',
-        },
-        alloy: {
-          100: '#E8E6E1',
-          200: '#E8E6E1',
-          300: '#B9BEC4',
-          400: '#B9BEC4',
-          500: '#6B7178',
         },
       },
       fontFamily: {

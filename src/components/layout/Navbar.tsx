@@ -8,8 +8,7 @@ import {
   IconShoppingBag,
   IconSun,
   IconMoon,
-  IconShieldCheck,
-  IconCpu
+  IconShieldCheck
 } from '../ui/Icons';
 
 interface NavbarProps {
@@ -23,7 +22,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
   setActiveTab,
   onOpenLotLookup,
-  onOpenSynthesis,
 }) => {
   const { theme, toggleTheme } = useTheme();
   const { cartItemCount, setIsCartOpen } = useCart();
@@ -47,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#16181B] border-b border-[#2A2E33]">
+    <header className="sticky top-0 z-40 w-full bg-theme-surface border-b border-theme transition-colors duration-150">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
         {/* Approved Horizontal Brand Logo */}
         <div
@@ -68,8 +66,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => setActiveTab(link.id)}
                 className={`px-3 py-2 transition-colors uppercase tracking-wider font-semibold ${
                   isActive
-                    ? 'text-[#E8E6E1] bg-[#1E2126] border-b-2 border-[#BE7A28]'
-                    : 'text-[#B9BEC4] hover:text-[#E8E6E1] hover:bg-[#1E2126]/60'
+                    ? 'text-theme-primary bg-theme-raised border-b-2 border-theme-amber'
+                    : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-raised/60'
                 }`}
               >
                 {link.label}
@@ -90,11 +88,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               placeholder="LOT NO. (24-0817)..."
               value={quickLot}
               onChange={e => setQuickLot(e.target.value)}
-              className="w-full bg-[#0A0B0D] border border-[#2A2E33] focus:border-[#BE7A28] text-[11px] pl-3 pr-8 py-1.5 text-[#E8E6E1] placeholder-[#6B7178] uppercase tracking-wider focus:outline-none"
+              className="w-full bg-theme-canvas border border-theme focus:border-theme-amber text-[11px] pl-3 pr-8 py-1.5 text-theme-primary placeholder-theme-muted uppercase tracking-wider focus:outline-none transition-colors"
             />
             <button
               type="submit"
-              className="absolute right-2 text-[#6B7178] hover:text-[#E3A455] transition-colors"
+              className="absolute right-2 text-theme-muted hover:text-amber-hover transition-colors"
               title="Verify Lot"
             >
               <IconSearch size={14} />
@@ -106,18 +104,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             variant="outline"
             size="sm"
             onClick={() => onOpenLotLookup('LOT 24-0817-C')}
-            className="flex items-center gap-1.5 text-[11px] text-[#E8E6E1] hover:text-[#E3A455]"
+            className="flex items-center gap-1.5 text-[11px]"
           >
             <IconShieldCheck size={14} amberAccent={true} />
             <span className="hidden sm:inline">Verify a Lot</span>
             <span className="sm:hidden">Verify</span>
           </Button>
 
-          {/* Theme Toggle */}
+          {/* Theme Toggle (Sun in Dark Mode, Moon in Light Mode) */}
           <button
             onClick={toggleTheme}
-            className="p-2 border border-[#2A2E33] text-[#B9BEC4] hover:text-[#E8E6E1] hover:border-[#3A3F45] transition-colors bg-[#16181B] flex-shrink-0"
-            title="Toggle Light/Dark Theme"
+            className="p-2 border border-theme text-theme-secondary hover:text-theme-primary hover:border-theme-amber transition-colors bg-theme-surface flex-shrink-0"
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
           >
             {theme === 'dark' ? (
               <IconSun size={15} />
@@ -129,7 +127,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Shopping Cart Drawer Trigger */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative p-2 border border-[#2A2E33] bg-[#1E2126] text-[#E8E6E1] hover:border-[#BE7A28] transition-colors flex-shrink-0"
+            className="relative p-2 border border-theme bg-theme-raised text-theme-primary hover:border-theme-amber transition-colors flex-shrink-0"
             title="Manifest Cart"
           >
             <IconShoppingBag size={15} />
@@ -143,7 +141,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Mobile Navigation Strip */}
-      <div className="lg:hidden flex items-center justify-between overflow-x-auto px-4 py-2 border-t border-[#2A2E33] bg-[#0A0B0D] text-[11px] font-interface gap-2">
+      <div className="lg:hidden flex items-center justify-between overflow-x-auto px-4 py-2 border-t border-theme bg-theme-canvas text-[11px] font-interface gap-2">
         {navLinks.map(link => {
           const isActive = activeTab === link.id;
           return (
@@ -152,8 +150,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setActiveTab(link.id)}
               className={`px-2 py-1 whitespace-nowrap uppercase tracking-wider font-semibold ${
                 isActive
-                  ? 'text-[#E8E6E1] bg-[#1E2126] border-b border-[#BE7A28]'
-                  : 'text-[#B9BEC4]'
+                  ? 'text-theme-primary bg-theme-raised border-b border-theme-amber'
+                  : 'text-theme-secondary'
               }`}
             >
               {link.label}

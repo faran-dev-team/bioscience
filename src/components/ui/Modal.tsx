@@ -37,7 +37,7 @@ export const Modal: React.FC<ModalProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-[#0A0B0D]/85 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/75 backdrop-blur-sm"
           />
 
           <motion.div
@@ -45,12 +45,12 @@ export const Modal: React.FC<ModalProps> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: 8 }}
             transition={{ duration: 0.15, ease: [0.2, 0, 0.2, 1] }}
-            className={`relative w-full ${maxWidth} bg-[#16181B] border border-[#2A2E33] p-6 z-10 overflow-hidden max-h-[90vh] flex flex-col`}
+            className={`relative w-full ${maxWidth} bg-theme-surface border border-theme p-6 z-10 overflow-hidden max-h-[90vh] flex flex-col transition-colors duration-150`}
           >
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#2A2E33]">
+            <div className="flex items-center justify-between pb-4 mb-4 border-b border-theme">
               {title ? (
-                <h3 className="font-heading text-xs uppercase tracking-widest text-[#E8E6E1] font-bold flex items-center gap-2">
+                <h3 className="font-heading text-xs uppercase tracking-widest text-theme-primary font-bold flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-[#BE7A28] inline-block" />
                   {title}
                 </h3>
@@ -59,7 +59,7 @@ export const Modal: React.FC<ModalProps> = ({
               )}
               <button
                 onClick={onClose}
-                className="text-[#6B7178] hover:text-[#E8E6E1] transition-colors p-1 border border-transparent hover:border-[#2A2E33]"
+                className="text-theme-muted hover:text-theme-primary transition-colors p-1 border border-transparent hover:border-theme"
                 title="Close modal"
               >
                 <IconClose size={18} />

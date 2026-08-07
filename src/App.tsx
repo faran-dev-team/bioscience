@@ -95,7 +95,7 @@ export const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0A0B0D] text-[#E8E6E1] selection:bg-[#BE7A28] selection:text-[#0A0B0D] font-body">
+    <div className="min-h-screen flex flex-col bg-theme-canvas text-theme-primary selection:bg-[#BE7A28] selection:text-[#0A0B0D] font-body transition-colors duration-150">
       {/* 21+ RUO Compliance Access Protocol Gate */}
       <AgeGateModal />
 
@@ -115,7 +115,7 @@ export const AppContent: React.FC = () => {
       <CartDrawer onProceedToCheckout={() => setIsCheckoutOpen(true)} />
 
       {/* Main Page View Content */}
-      <main className="flex-1">{renderContent()}</main>
+      <main className="flex-1 bg-theme-canvas">{renderContent()}</main>
 
       {/* Global Lot Retrieval Modal */}
       <LotLookupModal
