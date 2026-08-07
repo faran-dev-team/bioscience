@@ -1,0 +1,65 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Snowpack dependency directory
+web_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Build & Dist outputs
+dist/
+dist-ssr/
+build/
+*.local
+
+# Environment variables
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Editor & IDE directories
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvsopt
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+*.plist
+
+# Temporary & Scratch files
+*.tmp
+*.bak
+*.swp
+
+# Android & iOS keystores & certificates
+*.jks
+*.keystore
+*.p8
+*.p12
+key.properties
+EOF
