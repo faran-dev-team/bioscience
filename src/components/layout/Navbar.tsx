@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { useCart } from '../../context/CartContext';
-import { Button } from '../ui/Button';
 import { Logo } from '../ui/Logo';
 import {
   IconSearch,
@@ -12,7 +11,7 @@ import {
   IconShieldCheck,
   IconMenu,
   IconClose,
-  IconCpu,
+  IconFileText,
   IconArrowRight
 } from '../ui/Icons';
 
@@ -21,6 +20,7 @@ interface NavbarProps {
   setActiveTab: (tab: string) => void;
   onOpenLotLookup: (lotNum?: string) => void;
   onOpenSynthesis: () => void;
+  onOpenSearch?: (query?: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -28,13 +28,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   setActiveTab,
   onOpenLotLookup,
   onOpenSynthesis,
+  onOpenSearch,
 }) => {
   const { theme, toggleTheme } = useTheme();
   const { cartItemCount, setIsCartOpen } = useCart();
   const [quickLot, setQuickLot] = useState('');
+  const [quickSearch, setQuickSearch] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Close mobile drawer on route change or screen resize
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -57,18 +59,57 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onOpenSearch) {
+      onOpenSearch(quickSearch);
+    } else {
+      setActiveTab('search');
+    }
+    setIsSearchOpen(false);
+    setMobileMenuOpen(false);
+  };
+
   const navLinks = [
-    { id: 'catalogue', label: 'Research Products', desc: 'Browse HPLC-verified peptide catalog' },
-    { id: 'quality', label: 'Quality Assurance', desc: 'Analytical testing & HPLC methodologies' },
-    { id: 'research', label: 'Research Information', desc: 'Reconstitution & handling protocols' },
-    { id: 'about', label: 'About and Contact', desc: 'US domestic operations & support' },
+    { id: 'catalogue', label: 'Research Products' },
+    { id: 'quality', label: 'Quality Assurance' },
+    { id: 'research', label: 'Research Information' },
+    { id: 'why-choose-us', label: 'Why Choose Us' },
+    { id: 'about', label: 'About' },
+    { id: 'faqs', label: 'FAQ' },
+    { id: 'contact', label: 'Contact' },
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-theme-surface/95 backdrop-blur-md border-b border-theme transition-colors duration-150">
-      {/* Primary Top Bar */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
-        {/* Approved Horizontal Brand Logo */}
+    <header className="sticky top-0 z-40 w-full bg-white/95 dark:bg-[#111315]/95 text-zinc-900 dark:text-[#E8E6E1] border-b border-zinc-200 dark:border-[#2A2E33] shadow-sm dark:shadow-none backdrop-blur-md transition-colors duration-150">
+      {/* Top Banner Notice */}
+      <div className="bg-zinc-100 dark:bg-[#0A0B0D] border-b border-zinc-200 dark:border-[#1E2227] py-1 px-4 text-[10px] font-mono text-zinc-600 dark:text-[#6B7178] flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 bg-[#BE7A28] rounded-full inline-block animate-pulse" />
+          <span className="font-semibold text-zinc-700 dark:text-[#A0A5AB]">
+            DOMESTIC SHIPMENTS DISPATCHED FROM U.S. REFRIGERATED STORAGE
+          </span>
+        </div>
+        <div className="hidden sm:flex items-center gap-4">
+          <button 
+            onClick={() => setActiveTab('verify')}
+            className="font-medium hover:text-[#BE7A28] dark:hover:text-[#BE7A28] transition-colors"
+          >
+            VERIFY CERTIFICATE OF ANALYSIS
+          </button>
+          <span>·</span>
+          <button 
+            onClick={() => setActiveTab('legal')}
+            className="font-medium hover:text-[#BE7A28] dark:hover:text-[#BE7A28] transition-colors"
+          >
+            RESEARCH USE ONLY (§ 8.7)
+          </button>
+        </div>
+      </div>
+
+      {/* Primary Navigation Bar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+        {/* Brand Logo */}
         <div
           onClick={() => {
             setActiveTab('home');
@@ -81,18 +122,21 @@ export const Navbar: React.FC<NavbarProps> = ({
           <Logo size="sm" showSubtitle={false} className="sm:hidden" />
         </div>
 
-        {/* Desktop Simplified Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 font-interface text-xs">
+        {/* Desktop Navigation Links */}
+        <nav className="hidden xl:flex items-center gap-1 font-interface text-xs">
           {navLinks.map(link => {
             const isActive = activeTab === link.id;
             return (
               <button
                 key={link.id}
-                onClick={() => setActiveTab(link.id)}
-                className={`px-3 py-2 transition-colors uppercase tracking-wider font-semibold ${
+                onClick={() => {
+                  setActiveTab(link.id);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className={`px-3 py-2 transition-colors uppercase tracking-wider font-semibold text-[11px] ${
                   isActive
-                    ? 'text-theme-primary bg-theme-raised border-b-2 border-theme-amber'
-                    : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-raised/60'
+                    ? 'text-[#BE7A28] border-b-2 border-[#BE7A28]'
+                    : 'text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 dark:text-[#B9BEC4] dark:hover:text-[#E8E6E1] dark:hover:bg-[#16181B]'
                 }`}
               >
                 {link.label}
@@ -101,121 +145,107 @@ export const Navbar: React.FC<NavbarProps> = ({
           })}
         </nav>
 
-        {/* Right-Side Utilities: Search, Verify a Lot, Theme Toggle, Cart, Mobile Menu */}
-        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-          {/* Quick Lot Input for large screens */}
-          <form
-            onSubmit={handleLotSearch}
-            className="hidden xl:flex items-center relative w-56 font-mono"
-          >
-            <input
-              type="text"
-              placeholder="LOT NO. (24-0817)..."
-              value={quickLot}
-              onChange={e => setQuickLot(e.target.value)}
-              className="w-full bg-theme-canvas border border-theme focus:border-theme-amber text-[11px] pl-3 pr-8 py-1.5 text-theme-primary placeholder-theme-muted uppercase tracking-wider focus:outline-none transition-colors"
-            />
-            <button
-              type="submit"
-              className="absolute right-2 text-theme-muted hover:text-amber-hover transition-colors"
-              title="Verify Lot"
-            >
-              <IconSearch size={14} />
-            </button>
+        {/* Action Controls & Lot Verification Input */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Quick Lot Lookup Form (Desktop) */}
+          <form onSubmit={handleLotSearch} className="hidden md:flex items-center">
+            <div className="relative flex items-center">
+              <input
+                type="text"
+                placeholder="LOT # (e.g. 24-0817-C)"
+                value={quickLot}
+                onChange={e => setQuickLot(e.target.value)}
+                className="w-40 xl:w-48 bg-zinc-50 dark:bg-[#0A0B0D] border border-zinc-300 dark:border-[#2A2E33] px-2.5 py-1.5 text-[11px] font-mono text-zinc-900 dark:text-[#E8E6E1] placeholder:text-zinc-400 dark:placeholder:text-[#6B7178] focus:border-[#BE7A28] focus:outline-none transition-colors"
+              />
+              <button
+                type="submit"
+                className="bg-zinc-200 hover:bg-[#BE7A28] hover:text-white dark:bg-[#1E2227] dark:hover:bg-[#BE7A28] dark:hover:text-[#0A0B0D] text-zinc-800 dark:text-[#B9BEC4] border border-l-0 border-zinc-300 dark:border-[#2A2E33] px-2.5 py-1.5 text-[10px] font-mono font-bold uppercase transition-colors"
+                title="Verify Certificate of Analysis"
+              >
+                CoA
+              </button>
+            </div>
           </form>
 
-          {/* Right-side utility: "Verify a Lot" Button */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onOpenLotLookup('LOT 24-0817-C')}
-            className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] px-2 sm:px-3 py-1.5 h-8 sm:h-9"
-          >
-            <IconShieldCheck size={13} amberAccent={true} />
-            <span className="hidden sm:inline">Verify a Lot</span>
-            <span className="sm:hidden text-[10px]">Verify</span>
-          </Button>
-
-          {/* Theme Toggle Button */}
+          {/* Quick Search Button */}
           <button
-            onClick={toggleTheme}
-            className="p-2 border border-theme text-theme-secondary hover:text-theme-primary hover:border-theme-amber transition-colors bg-theme-surface flex items-center justify-center h-8 sm:h-9 w-8 sm:w-9 flex-shrink-0"
-            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
-            aria-label="Toggle Theme"
+            onClick={() => {
+              if (onOpenSearch) onOpenSearch();
+              else setActiveTab('search');
+            }}
+            className="p-2 bg-zinc-50 dark:bg-transparent text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 dark:text-[#B9BEC4] dark:hover:text-[#E8E6E1] dark:hover:bg-[#1E2227] border border-zinc-300 dark:border-[#2A2E33] transition-colors"
+            title="Search catalogue and sequences"
           >
-            {theme === 'dark' ? (
-              <IconSun size={15} />
-            ) : (
-              <IconMoon size={15} />
-            )}
+            <IconSearch size={15} />
           </button>
 
-          {/* Shopping Cart Drawer Trigger */}
+          {/* Cart Icon & Manifest Drawer Trigger */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className="relative p-2 border border-theme bg-theme-raised text-theme-primary hover:border-theme-amber transition-colors flex items-center justify-center h-8 sm:h-9 w-8 sm:w-9 flex-shrink-0"
-            title="Order Manifest Cart"
-            aria-label="View Cart"
+            className="relative p-2 bg-zinc-50 dark:bg-transparent text-zinc-700 hover:text-[#BE7A28] hover:bg-zinc-100 dark:text-[#B9BEC4] dark:hover:text-[#BE7A28] dark:hover:bg-[#1E2227] border border-zinc-300 dark:border-[#2A2E33] transition-colors"
+            title="View Order Manifest"
           >
             <IconShoppingBag size={15} />
             {cartItemCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-[#BE7A28] text-[#0A0B0D] font-mono font-bold text-[9px] w-4 h-4 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-[#BE7A28] text-white dark:text-[#0A0B0D] text-[9px] font-mono font-bold w-4 h-4 rounded-full flex items-center justify-center">
                 {cartItemCount}
               </span>
             )}
           </button>
 
-          {/* Mobile Menu Hamburger Toggle */}
+          {/* Theme Switcher */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 bg-zinc-50 dark:bg-transparent text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 dark:text-[#B9BEC4] dark:hover:text-[#E8E6E1] dark:hover:bg-[#1E2227] border border-zinc-300 dark:border-[#2A2E33] transition-colors"
+            title={theme === 'dark' ? 'Switch to Light View' : 'Switch to Dark View'}
+          >
+            {theme === 'dark' ? <IconSun size={15} /> : <IconMoon size={15} />}
+          </button>
+
+          {/* Mobile Menu Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 border border-theme text-theme-primary hover:border-theme-amber transition-colors bg-theme-surface flex items-center justify-center h-8 sm:h-9 w-8 sm:w-9 flex-shrink-0"
-            title={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
-            aria-label="Toggle Mobile Menu"
+            className="xl:hidden p-2 bg-zinc-50 dark:bg-transparent text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 dark:text-[#B9BEC4] dark:hover:text-[#E8E6E1] dark:hover:bg-[#1E2227] border border-zinc-300 dark:border-[#2A2E33] transition-colors"
+            title="Toggle Menu"
           >
-            {mobileMenuOpen ? (
-              <IconClose size={16} />
-            ) : (
-              <IconMenu size={16} />
-            )}
+            {mobileMenuOpen ? <IconClose size={18} /> : <IconMenu size={18} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Animated Slide-down Full Navigation Drawer */}
+      {/* Mobile Drawer Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2, ease: [0.2, 0, 0.2, 1] }}
-            className="lg:hidden border-t border-theme bg-theme-surface px-4 py-4 space-y-4 font-interface overflow-hidden shadow-2xl transition-colors duration-150"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="xl:hidden bg-white dark:bg-[#16181B] border-b border-zinc-200 dark:border-[#2A2E33] px-4 py-6 space-y-5 shadow-lg dark:shadow-none"
           >
-            {/* Mobile Quick Lot Lookup Input */}
-            <form onSubmit={handleLotSearch} className="flex gap-2 font-mono text-xs">
-              <div className="relative flex-1">
+            {/* Quick Lot Lookup for Mobile */}
+            <form onSubmit={handleLotSearch} className="space-y-2">
+              <label className="text-[10px] font-mono text-zinc-500 dark:text-[#6B7178] uppercase tracking-wider block">
+                Certificate of Analysis Retrieval
+              </label>
+              <div className="flex">
                 <input
                   type="text"
-                  placeholder="ENTER VIAL LOT NUMBER..."
+                  placeholder="Enter Lot # (e.g. LOT 24-0817-C)"
                   value={quickLot}
                   onChange={e => setQuickLot(e.target.value)}
-                  className="w-full bg-theme-canvas border border-theme focus:border-theme-amber text-xs pl-3 pr-9 py-2.5 text-theme-primary placeholder-theme-muted uppercase tracking-wider focus:outline-none"
+                  className="flex-1 bg-zinc-50 dark:bg-[#0A0B0D] border border-zinc-300 dark:border-[#2A2E33] px-3 py-2 text-xs font-mono text-zinc-900 dark:text-[#E8E6E1] placeholder:text-zinc-400 dark:placeholder:text-[#6B7178] focus:border-[#BE7A28] focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="absolute right-2.5 top-2.5 text-theme-muted hover:text-amber-hover"
-                  title="Search Lot"
+                  className="bg-[#BE7A28] text-white dark:text-[#0A0B0D] px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider"
                 >
-                  <IconSearch size={15} />
+                  Verify
                 </button>
               </div>
-              <Button variant="amber" size="sm" type="submit" className="px-3 py-2.5 text-xs">
-                <span>Verify</span>
-              </Button>
             </form>
 
-            {/* Mobile Navigation Links with Rich Context */}
-            <div className="space-y-1 pt-1 border-t border-theme">
+            {/* Navigation Links */}
+            <div className="grid grid-cols-1 gap-1 border-t border-zinc-200 dark:border-[#2A2E33] pt-4 font-interface">
               {navLinks.map(link => {
                 const isActive = activeTab === link.id;
                 return (
@@ -224,77 +254,47 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onClick={() => {
                       setActiveTab(link.id);
                       setMobileMenuOpen(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className={`w-full text-left px-3 py-2.5 text-xs flex items-center justify-between transition-colors ${
+                    className={`text-left px-3 py-2.5 text-xs font-semibold uppercase tracking-wider flex items-center justify-between transition-colors ${
                       isActive
-                        ? 'text-theme-primary bg-theme-raised border-l-2 border-theme-amber font-bold'
-                        : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-raised/50'
+                        ? 'bg-zinc-100 dark:bg-[#1E2227] text-[#BE7A28]'
+                        : 'text-zinc-800 dark:text-[#B9BEC4] hover:bg-zinc-100 dark:hover:bg-[#1E2227] hover:text-zinc-950 dark:hover:text-[#E8E6E1]'
                     }`}
                   >
-                    <div>
-                      <p className="uppercase tracking-wider font-semibold">{link.label}</p>
-                      <p className="text-[10px] text-theme-muted font-normal normal-case">{link.desc}</p>
-                    </div>
-                    <IconArrowRight size={13} className={isActive ? 'text-amber-hover' : 'text-theme-muted'} />
+                    <span>{link.label}</span>
+                    <IconArrowRight size={12} className="text-zinc-400 dark:text-[#6B7178]" />
                   </button>
                 );
               })}
-            </div>
 
-            {/* Quick Action Buttons in Mobile Menu */}
-            <div className="pt-2 border-t border-theme grid grid-cols-2 gap-2 text-xs">
-              <Button
-                variant="outline"
-                size="sm"
+              <button
                 onClick={() => {
-                  onOpenLotLookup('LOT 24-0817-C');
+                  setActiveTab('verify');
                   setMobileMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="w-full flex items-center justify-center gap-1.5 text-[11px] py-2"
+                className="text-left px-3 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-800 dark:text-[#B9BEC4] hover:bg-zinc-100 dark:hover:bg-[#1E2227] flex items-center justify-between transition-colors"
               >
-                <IconShieldCheck size={13} amberAccent={true} />
-                <span>Verify a Lot</span>
-              </Button>
+                <span>Lot Verification Hub</span>
+                <IconFileText size={12} className="text-[#BE7A28]" />
+              </button>
 
-              <Button
-                variant="secondary"
-                size="sm"
+              <button
                 onClick={() => {
-                  onOpenSynthesis();
+                  setActiveTab('legal');
                   setMobileMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="w-full flex items-center justify-center gap-1.5 text-[11px] py-2"
+                className="text-left px-3 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-800 dark:text-[#B9BEC4] hover:bg-zinc-100 dark:hover:bg-[#1E2227] flex items-center justify-between transition-colors"
               >
-                <IconCpu size={13} />
-                <span>Synthesis</span>
-              </Button>
+                <span>Legal & Compliance Hub</span>
+                <IconShieldCheck size={12} className="text-zinc-500 dark:text-[#6B7178]" />
+              </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Mobile Horizontal Quick-Scroll Tab Strip */}
-      <div className="lg:hidden flex items-center justify-between overflow-x-auto px-3 sm:px-4 py-2 border-t border-theme bg-theme-canvas text-[11px] font-interface gap-1.5 no-scrollbar">
-        {navLinks.map(link => {
-          const isActive = activeTab === link.id;
-          return (
-            <button
-              key={link.id}
-              onClick={() => {
-                setActiveTab(link.id);
-                setMobileMenuOpen(false);
-              }}
-              className={`px-2.5 py-1 whitespace-nowrap uppercase tracking-wider font-semibold text-[10.5px] transition-colors ${
-                isActive
-                  ? 'text-theme-primary bg-theme-raised border-b-2 border-theme-amber'
-                  : 'text-theme-secondary hover:text-theme-primary'
-              }`}
-            >
-              {link.label}
-            </button>
-          );
-        })}
-      </div>
     </header>
   );
 };

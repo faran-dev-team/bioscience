@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { COMPOUNDS_DATA } from '../../../data/compounds';
-import { CategoryType, Compound } from '../../../types/compound';
+import { Compound } from '../../../types/compound';
 import { ProductCard } from './ProductCard';
-import { IconSearch, IconSliders } from '../../ui/Icons';
+import { IconSearch } from '../../ui/Icons';
 
 interface ProductGridProps {
   onSelectCompound: (compound: Compound) => void;
@@ -15,15 +15,16 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   onOpenLotLookup,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [minPurity, setMinPurity] = useState<number>(99.0);
 
-  const categories: CategoryType[] = [
+  const categories: string[] = [
     'All',
-    'Tissue Repair & Recovery',
-    'Metabolic & Incretin',
-    'Anti-Aging & Cellular',
-    'Growth Factor & GH Secretagogues',
+    'Catalogue Research Peptides',
+    'Peptide Fragments and Analogues',
+    'Cyclic and Modified Peptides',
+    'Reference Standards',
+    'Laboratory Consumables',
   ];
 
   const filteredCompounds = useMemo(() => {
@@ -35,7 +36,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
         compound.casNumber.includes(searchTerm);
 
       const matchesCategory =
-        selectedCategory === 'All' || compound.category === selectedCategory;
+        selectedCategory === 'All' || compound.categoryName === selectedCategory;
 
       const matchesPurity = compound.purity >= minPurity;
 
@@ -44,90 +45,94 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   }, [searchTerm, selectedCategory, minPurity]);
 
   return (
-    <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6">
+    <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6 font-body">
       {/* Category Tabs & Search HUD */}
       <div className="space-y-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-theme pb-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#2A2E33] pb-4">
           <div>
             <span className="font-mono text-[11px] text-[#BE7A28] uppercase tracking-widest font-bold block mb-1">
               [ RESEARCH CATALOGUE SPECIFICATION ]
             </span>
-            <h2 className="font-heading text-2xl font-bold text-theme-primary uppercase tracking-wider">
+            <h2 className="font-heading text-2xl font-bold text-[#E8E6E1] uppercase tracking-wider">
               Analytically Verified Research Peptides
             </h2>
           </div>
 
           {/* Search Box */}
-          <div className="relative w-full md:w-80 font-mono">
+          <div className="relative w-full md:w-80">
             <input
               type="text"
-              placeholder="SEARCH COMPOUND, SEQUENCE, CAS..."
+              placeholder="Search compounds or CAS #..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full bg-theme-surface border border-theme focus:border-theme-amber text-xs px-3.5 py-2.5 text-theme-primary placeholder-theme-muted uppercase tracking-wider focus:outline-none transition-colors"
+              className="w-full bg-[#16181B] border border-[#2A2E33] pl-9 pr-4 py-2 text-xs font-mono text-[#E8E6E1] placeholder:text-[#6B7178] focus:border-[#BE7A28] focus:outline-none transition-colors"
             />
-            <span className="absolute right-3 top-2.5 text-theme-muted">
-              <IconSearch size={15} />
-            </span>
+            <IconSearch size={14} className="absolute left-3 top-3 text-[#6B7178]" />
           </div>
         </div>
 
-        {/* Filters HUD */}
-        <div className="flex flex-wrap items-center justify-between gap-3 font-interface text-xs bg-theme-surface p-3 border border-theme transition-colors">
-          {/* Category Pills */}
-          <div className="flex flex-wrap gap-1.5">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 uppercase tracking-wider text-[11px] font-semibold transition-colors border ${
-                  selectedCategory === cat
-                    ? 'border-theme-amber bg-theme-amber/10 text-theme-primary'
-                    : 'border-theme bg-theme-canvas text-theme-secondary hover:text-theme-primary hover:border-[#3A3F45]'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+        {/* Filters Strip */}
+        <div className="flex flex-wrap items-center justify-between gap-4 font-interface text-xs">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {categories.map(cat => {
+              const isSelected = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-3 py-1.5 uppercase tracking-wider text-[11px] font-semibold transition-colors border ${
+                    isSelected
+                      ? 'bg-[#BE7A28] text-[#0A0B0D] border-[#BE7A28] font-bold'
+                      : 'bg-[#16181B] text-[#B9BEC4] border-[#2A2E33] hover:text-[#E8E6E1]'
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Purity Threshold Filter */}
-          <div className="flex items-center gap-2 text-theme-secondary font-mono text-[11px]">
-            <IconSliders size={14} className="text-theme-muted" />
-            <span>MIN PURITY:</span>
+          <div className="flex items-center gap-2 text-xs font-mono">
+            <span className="text-[#6B7178]">Min Purity:</span>
             <select
               value={minPurity}
               onChange={e => setMinPurity(Number(e.target.value))}
-              className="bg-theme-canvas border border-theme text-theme-primary font-bold px-2 py-1 focus:outline-none"
+              className="bg-[#16181B] border border-[#2A2E33] px-2 py-1 text-xs text-[#E8E6E1] focus:border-[#BE7A28] focus:outline-none"
             >
-              <option value={99.0}>≥ 99.0% (Standard HPLC)</option>
-              <option value={99.4}>≥ 99.4% (Ultra Purity)</option>
-              <option value={99.8}>≥ 99.8% (Maximum Grade)</option>
+              <option value={99.0}>≥ 99.0% (HPLC)</option>
+              <option value={99.5}>≥ 99.5% (HPLC)</option>
             </select>
           </div>
         </div>
       </div>
 
-      {/* Grid Results with AnimatePresence */}
-      {filteredCompounds.length === 0 ? (
-        <div className="text-center py-16 font-mono text-xs text-theme-muted border border-dashed border-theme space-y-2">
-          <p>[ NO MATCHING COMPOUNDS FOUND ]</p>
-          <p className="text-[11px]">
-            Try adjusting your search keyword or category filter.
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <AnimatePresence>
-            {filteredCompounds.map(compound => (
-              <ProductCard
-                key={compound.id}
-                compound={compound}
-                onSelect={onSelectCompound}
-                onOpenLotLookup={onOpenLotLookup}
-              />
-            ))}
-          </AnimatePresence>
+      {/* Grid Display */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <AnimatePresence>
+          {filteredCompounds.map(compound => (
+            <ProductCard
+              key={compound.id}
+              compound={compound}
+              onSelect={onSelectCompound}
+              onOpenLotLookup={onOpenLotLookup}
+            />
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {filteredCompounds.length === 0 && (
+        <div className="bg-[#16181B] border border-[#2A2E33] p-12 text-center space-y-3 font-mono">
+          <p className="text-sm text-[#E8E6E1]">No research compounds matched your filter criteria.</p>
+          <button
+            onClick={() => {
+              setSearchTerm('');
+              setSelectedCategory('All');
+              setMinPurity(99.0);
+            }}
+            className="text-xs text-[#BE7A28] font-bold hover:underline"
+          >
+            Reset Filters
+          </button>
         </div>
       )}
     </section>

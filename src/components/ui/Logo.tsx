@@ -21,9 +21,9 @@ export const Logo: React.FC<LogoProps> = ({
 
   return (
     <div className={`inline-flex items-center gap-3 select-none ${className}`}>
-      {/* Precision Calibrated Instrument Mark (24x24 outline SVG with 1.6px uniform stroke, butt caps, mitre join, single amber vertical axis) */}
+      {/* Precision Calibrated Instrument Mark */}
       <div
-        className={`${currentSize.box} flex items-center justify-center bg-theme-surface border border-theme hover:border-[#BE7A28] transition-colors flex-shrink-0`}
+        className={`${currentSize.box} flex items-center justify-center bg-zinc-100 dark:bg-[#16181B] border border-zinc-300 dark:border-[#2A2E33] hover:border-[#BE7A28] transition-colors flex-shrink-0`}
       >
         <svg
           width={currentSize.svg}
@@ -35,7 +35,7 @@ export const Logo: React.FC<LogoProps> = ({
           strokeLinecap="butt"
           strokeLinejoin="miter"
           strokeMiterlimit={10}
-          className="text-theme-primary"
+          className="text-zinc-900 dark:text-[#E8E6E1]"
         >
           {/* Outer Scribed Precision Ring */}
           <circle cx="12" cy="12" r="9" stroke="currentColor" />
@@ -53,11 +53,11 @@ export const Logo: React.FC<LogoProps> = ({
 
       {/* Horizontal Brand Typography */}
       <div className="flex flex-col justify-center">
-        <span className={`font-display font-bold tracking-tight uppercase text-theme-primary leading-none ${currentSize.title}`}>
+        <span className={`font-display font-bold tracking-tight uppercase text-zinc-900 dark:text-[#E8E6E1] leading-none ${currentSize.title}`}>
           BioScience Depot
         </span>
         {showSubtitle && (
-          <span className={`font-mono text-theme-muted tracking-wider uppercase mt-1 leading-none ${currentSize.sub}`}>
+          <span className={`font-mono text-zinc-600 dark:text-[#6B7178] tracking-wider uppercase mt-1 leading-none ${currentSize.sub}`}>
             Analytical Research Supply · US
           </span>
         )}
