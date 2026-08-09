@@ -204,6 +204,34 @@ html.light textarea::placeholder {
   color: var(--text-metadata) !important;
 }
 
+/* Hero Video Section: Preserves cinematic dark contrast and crisp white text across both light and dark modes */
+.hero-video-section {
+  background-color: #0A0B0D !important;
+  color: #FFFFFF !important;
+}
+
+html.light .hero-video-section {
+  background-color: #0A0B0D !important;
+  border-color: #2A2E33 !important;
+}
+
+html.light .hero-video-section .hero-text-title {
+  color: #FFFFFF !important;
+}
+
+html.light .hero-video-section .hero-text-body {
+  color: #E2E8F0 !important;
+}
+
+html.light .hero-video-section .hero-text-amber {
+  color: #E3A455 !important;
+}
+
+html.light .hero-video-section .hero-badge {
+  background-color: rgba(22, 24, 27, 0.9) !important;
+  border-color: #2A2E33 !important;
+}
+
 /* Crisp Card Style */
 .brand-card {
   background-color: var(--bg-surface);

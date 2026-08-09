@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RUOComplianceStrip } from '../components/features/hero/RUOComplianceStrip';
 import { ProductGrid } from '../components/features/catalog/ProductGrid';
@@ -35,6 +35,16 @@ export const HomePage: React.FC<HomePageProps> = ({
   onSelectCategory,
 }) => {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.muted = true;
+      video.playsInline = true;
+      video.play().catch(() => {});
+    }
+  }, []);
 
   const toggleFaq = (id: string) => {
     setOpenFaq(openFaq === id ? null : id);
@@ -56,48 +66,69 @@ export const HomePage: React.FC<HomePageProps> = ({
       transition={{ duration: 0.2 }}
       className="space-y-16 bg-[#0A0B0D] text-[#E8E6E1] font-body"
     >
-      {/* 1. HERO SECTION (PAGE 01 - Page 1) */}
-      <section className="relative pt-12 pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#2A2E33] bg-[#0E1012]">
-        <div className="max-w-5xl mx-auto space-y-6">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-[#BE7A28] rounded-full inline-block" />
-            <span className="text-[11px] font-mono font-bold text-[#BE7A28] uppercase tracking-widest">
-              RESEARCH USE ONLY · UNITED STATES DOMESTIC SUPPLY
-            </span>
-          </div>
+      {/* 1. HERO SECTION (PAGE 01 - Page 1) WITH BACKGROUND VIDEO */}
+      {/* 1. HERO SECTION (PAGE 01 - Page 1) WITH BACKGROUND VIDEO */}
+      <section className="hero-video-section relative min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] flex items-center py-14 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-b border-[#2A2E33] bg-[#0A0B0D] overflow-hidden">
+        {/* Dynamic Laboratory Background Video */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#0A0B0D]">
+          <video
+            ref={videoRef}
+            src="/videos/bioscience.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className="w-full h-full object-cover object-[70%_center] sm:object-center opacity-75"
+            style={{ filter: 'contrast(1.05) brightness(0.95)' }}
+          />
+          {/* Translucent gradient overlay so the video shines through vividly while text remains 100% legible */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0B0D]/85 via-[#0A0B0D]/50 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B0D]/80 via-transparent to-transparent pointer-events-none" />
+        </div>
 
-          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-[#E8E6E1] leading-tight">
-            Research-grade peptides. Held to a harder standard.
-          </h1>
+        <div className="max-w-7xl mx-auto relative z-10 w-full">
+          <div className="max-w-2xl lg:max-w-3xl space-y-5 sm:space-y-6 text-left">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-[#BE7A28] rounded-full inline-block" />
+              <span className="text-[11px] font-mono font-bold hero-text-amber text-[#BE7A28] uppercase tracking-widest">
+                RESEARCH USE ONLY · UNITED STATES DOMESTIC SUPPLY
+              </span>
+            </div>
 
-          <p className="text-sm sm:text-base text-[#B9BEC4] font-body leading-relaxed max-w-3xl">
-            BioScience Depot supplies high-purity research peptides to laboratories, universities, and biotechnology institutions across the United States. Every compound is synthesized to specification, analytically verified, and documented lot by lot — for research use only.
-          </p>
+            <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight hero-text-title text-white leading-tight drop-shadow-sm">
+              Research-grade peptides. Held to a harder standard.
+            </h1>
 
-          <div className="flex flex-wrap items-center gap-4 pt-2 font-interface">
-            <Button
-              variant="amber"
-              size="lg"
-              onClick={() => {
-                setActiveTab('catalogue');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="flex items-center gap-2"
-            >
-              <span>Explore Research Products</span>
-              <IconArrowRight size={16} />
-            </Button>
+            <p className="text-sm sm:text-base hero-text-body text-[#E2E8F0] font-body leading-relaxed max-w-2xl drop-shadow-sm">
+              BioScience Depot supplies high-purity research peptides to laboratories, universities, and biotechnology institutions across the United States. Every compound is synthesized to specification, analytically verified, and documented lot by lot — for research use only.
+            </p>
 
-            <button
-              onClick={() => {
-                setActiveTab('quality');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="text-xs font-mono font-bold uppercase tracking-wider text-[#BE7A28] hover:underline inline-flex items-center gap-1.5 px-4 py-3"
-            >
-              <span>View Quality Standards</span>
-              <IconArrowRight size={14} />
-            </button>
+            <div className="flex flex-wrap items-center gap-4 pt-2 font-interface">
+              <Button
+                variant="amber"
+                size="lg"
+                onClick={() => {
+                  setActiveTab('catalogue');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="flex items-center gap-2"
+              >
+                <span>Explore Research Products</span>
+                <IconArrowRight size={16} />
+              </Button>
+
+              <button
+                onClick={() => {
+                  setActiveTab('quality');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="text-xs font-mono font-bold uppercase tracking-wider hero-text-amber text-[#BE7A28] hover:underline inline-flex items-center gap-1.5 px-4 py-3"
+              >
+                <span>View Quality Standards</span>
+                <IconArrowRight size={14} />
+              </button>
+            </div>
           </div>
         </div>
       </section>
