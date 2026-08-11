@@ -33,11 +33,9 @@ build/
 *.local
 
 # Environment variables
-.env
 .env.development.local
 .env.test.local
 .env.production.local
-.env.local
 
 # Local Documentation & PDF Files (Excluded from GitHub)
 BIOSCIENCE DEPOT CONTENT.pdf
@@ -46,7 +44,6 @@ BioScience-Depot-Brand-Guidelines.pdf
 BioScience-Depot-Brand-Guidelines.md
 
 # Editor & IDE directories
-.vscode/*
 !.vscode/extensions.json
 .idea
 *.suo
@@ -68,3 +65,4 @@ BioScience-Depot-Brand-Guidelines.md
 *.p8
 *.p12
 key.properties
+config.bat

@@ -42,7 +42,7 @@ export const HomePage: React.FC<HomePageProps> = ({
     if (video) {
       video.muted = true;
       video.playsInline = true;
-      video.play().catch(() => {});
+      video.play().catch(() => { });
     }
   }, []);
 
@@ -66,7 +66,6 @@ export const HomePage: React.FC<HomePageProps> = ({
       transition={{ duration: 0.2 }}
       className="space-y-16 bg-[#0A0B0D] text-[#E8E6E1] font-body"
     >
-      {/* 1. HERO SECTION (PAGE 01 - Page 1) WITH BACKGROUND VIDEO */}
       {/* 1. HERO SECTION (PAGE 01 - Page 1) WITH BACKGROUND VIDEO */}
       <section className="hero-video-section relative min-h-[480px] sm:min-h-[540px] lg:min-h-[600px] flex items-center py-14 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-b border-[#2A2E33] bg-[#0A0B0D] overflow-hidden">
         {/* Dynamic Laboratory Background Video */}
@@ -97,7 +96,9 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight hero-text-title text-white leading-tight drop-shadow-sm">
-              Research-grade peptides. Held to a harder standard.
+              Research-grade peptides.{' '}
+              <br className="hidden sm:inline" />
+              Stringent purity verification and rigorous quality control.
             </h1>
 
             <p className="text-sm sm:text-base hero-text-body text-[#E2E8F0] font-body leading-relaxed max-w-2xl drop-shadow-sm">

@@ -137,7 +137,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <h1 className="font-heading text-2xl sm:text-4xl md:text-5xl lg:text-5xl font-bold uppercase tracking-tight text-[#E8E6E1] leading-[1.14] sm:leading-[1.1]">
               Research-grade peptides. <br className="hidden sm:inline" />
               <span className="text-[#E8E6E1]">
-                Held to a harder standard.
+                Stringent purity verification and rigorous quality control.
               </span>
             </h1>
 
