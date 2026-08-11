@@ -6,55 +6,64 @@ interface LogoProps {
   className?: string;
 }
 
+interface LogoMarkProps {
+  size: number;
+}
+
+const LogoMark: React.FC<LogoMarkProps> = ({ size }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <rect width="24" height="24" fill="#0A0B0D" />
+    <rect x="0" y="0" width="2" height="24" fill="#BE7A28" />
+    <circle cx="12" cy="12" r="9" stroke="#E8E6E1" strokeWidth="1.8" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit={10} />
+    <circle cx="12" cy="12" r="4.5" stroke="#E8E6E1" strokeWidth="1.8" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit={10} />
+    <line x1="12" y1="2" x2="12" y2="22" stroke="#BE7A28" strokeWidth="1.8" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit={10} />
+    <line x1="3" y1="12" x2="6.5" y2="12" stroke="#E8E6E1" strokeWidth="1.8" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit={10} />
+    <line x1="17.5" y1="12" x2="21" y2="12" stroke="#E8E6E1" strokeWidth="1.8" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit={10} />
+    <line x1="12" y1="3" x2="12" y2="5.5" stroke="#6B7178" strokeWidth="1.2" strokeLinecap="butt" />
+    <line x1="12" y1="18.5" x2="12" y2="21" stroke="#6B7178" strokeWidth="1.2" strokeLinecap="butt" />
+    <line x1="3" y1="12" x2="5.5" y2="12" stroke="#6B7178" strokeWidth="1.2" strokeLinecap="butt" />
+    <line x1="18.5" y1="12" x2="21" y2="12" stroke="#6B7178" strokeWidth="1.2" strokeLinecap="butt" />
+    <circle cx="12" cy="12" r="2.2" fill="#BE7A28" fillOpacity="0.25" />
+    <circle cx="12" cy="12" r="1.2" fill="#BE7A28" />
+  </svg>
+);
+
 export const Logo: React.FC<LogoProps> = ({
   size = 'md',
   showSubtitle = true,
   className = '',
 }) => {
   const sizes = {
-    sm: { box: 'w-6 h-6', svg: 18, title: 'text-xs', sub: 'text-[9px]' },
-    md: { box: 'w-8 h-8', svg: 22, title: 'text-sm sm:text-base', sub: 'text-[10px]' },
-    lg: { box: 'w-10 h-10', svg: 26, title: 'text-base sm:text-lg', sub: 'text-xs' },
+    sm: { box: 'w-7 h-7', svg: 28, title: 'text-xs', sub: 'text-[9px]', gap: 'gap-2', showRule: false },
+    md: { box: 'w-9 h-9', svg: 36, title: 'text-sm sm:text-base', sub: 'text-[10px]', gap: 'gap-2.5', showRule: true },
+    lg: { box: 'w-11 h-11', svg: 44, title: 'text-base sm:text-lg', sub: 'text-xs', gap: 'gap-3', showRule: true },
   };
 
   const currentSize = sizes[size];
 
   return (
-    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
-      {/* Precision Calibrated Instrument Mark */}
+    <div className={`inline-flex items-center ${currentSize.gap} select-none ${className}`}>
       <div
-        className={`${currentSize.box} flex items-center justify-center bg-zinc-100 dark:bg-[#16181B] border border-zinc-300 dark:border-[#2A2E33] hover:border-[#BE7A28] transition-colors flex-shrink-0`}
+        className={`${currentSize.box} flex items-center justify-center flex-shrink-0 overflow-hidden border border-[#2A2E33] shadow-[0_0_12px_rgba(190,122,40,0.12)]`}
       >
-        <svg
-          width={currentSize.svg}
-          height={currentSize.svg}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="butt"
-          strokeLinejoin="miter"
-          strokeMiterlimit={10}
-          className="text-zinc-900 dark:text-[#E8E6E1]"
-        >
-          {/* Outer Scribed Precision Ring */}
-          <circle cx="12" cy="12" r="9" stroke="currentColor" />
-          {/* Inner Core Precision Mark */}
-          <circle cx="12" cy="12" r="4.5" stroke="currentColor" />
-          {/* Vertical Calibration Axis (Reagent Amber #BE7A28) */}
-          <line x1="12" y1="2" x2="12" y2="22" stroke="#BE7A28" />
-          {/* Horizontal Reticle Marks */}
-          <line x1="3" y1="12" x2="6.5" y2="12" stroke="currentColor" />
-          <line x1="17.5" y1="12" x2="21" y2="12" stroke="currentColor" />
-          {/* Center Point */}
-          <circle cx="12" cy="12" r="1.2" fill="#BE7A28" stroke="none" />
-        </svg>
+        <LogoMark size={currentSize.svg} />
       </div>
 
-      {/* Horizontal Brand Typography */}
-      <div className="flex flex-col justify-center">
-        <span className={`font-display font-bold tracking-tight uppercase text-zinc-900 dark:text-[#E8E6E1] leading-none ${currentSize.title}`}>
-          BioScience Depot
+      {currentSize.showRule && (
+        <div className="hidden sm:block w-px h-6 bg-[#BE7A28]/60 flex-shrink-0" aria-hidden="true" />
+      )}
+
+      <div className="flex flex-col justify-center min-w-0">
+        <span className={`font-display font-bold tracking-tight uppercase leading-none ${currentSize.title}`}>
+          <span className="text-zinc-900 dark:text-[#E8E6E1]">BioScience </span>
+          <span className="text-[#BE7A28]">Depot</span>
         </span>
         {showSubtitle && (
           <span className={`font-mono text-zinc-600 dark:text-[#6B7178] tracking-wider uppercase mt-1 leading-none ${currentSize.sub}`}>
